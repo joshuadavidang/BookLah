@@ -1,7 +1,9 @@
 import { fetcher } from "@/api/helper";
 import { Button } from "@/components/ui/button";
 import { BACK_END_API_URL } from "@/utils/constants";
+import Image from "next/image";
 import useSWR from "swr";
+import Singpass from "~/singpass.svg";
 
 export default function AuthenticationButton() {
   const { data } = useSWR(
@@ -16,8 +18,14 @@ export default function AuthenticationButton() {
 
   return (
     <div className="flex flex-col gap-5 md:w-1/2 w-screen md:h-full justify-center items-start">
-      <Button variant="secondary" onClick={handleSingPassBtn}>
-        Login with Singpass
+      <Button variant="default" onClick={handleSingPassBtn}>
+        Login with{" "}
+        <Image
+          src={Singpass}
+          alt="Singpass"
+          width={80}
+          className="ml-1 mt-1.5"
+        />
       </Button>
     </div>
   );
