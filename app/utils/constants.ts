@@ -1,0 +1,3 @@
+const BACK_END_API_URL = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+export { BACK_END_API_URL };
