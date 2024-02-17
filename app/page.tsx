@@ -17,7 +17,7 @@ export default function Home() {
     <main className="flex flex-col md:flex-row h-screen w-full pt-24 md:pt-0">
       <div className="w-screen md:w-2/5 flex flex-col justify-center items-center px-12 md:bg-slate-100">
         <h1 className="text-3xl">Your Ultimate Concert Booking Solution</h1>
-        <Image src={Hero} width={500} height={500} alt="Hero" />
+        <Image src={Hero} width={500} height={500} alt="Hero" priority />
         <h2 className="text-lg hidden md:block">BookLah!</h2>
       </div>
       <div className="w-fit flex flex-col justify-center items-center md:w-3/5">
