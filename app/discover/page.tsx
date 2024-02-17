@@ -1,7 +1,8 @@
 "use client";
 
+import Concert from "@/components/Concert";
 import { Button } from "@/components/ui/button";
-import { useUserData } from "@/hooks/useUserData";
+import { useAuth } from "@/hooks/useAuth";
 
 const TopPattern = () => {
   return (
@@ -16,24 +17,26 @@ const TopPattern = () => {
 };
 
 export default function Discover() {
-  const { user, isLoading } = useUserData();
-  if (isLoading)
+  const { user, error, isLoading } = useAuth();
+  if (isLoading) {
     return (
       <div className="flex h-screen justify-center items-center">
         <h1 className="text-2xl">Loading...</h1>
       </div>
     );
+  }
 
   const name = user?.userData.data["myinfo.name"] || "Guest";
 
   return (
     <main className="flex flex-col justify-start items-center min-h-screen">
       <TopPattern />
-      <div className="absolute top-10 right-10 justify-end flex w-screen">
+      <div className="hidden absolute top-10 right-10 justify-end lg:flex w-screen">
         <Button variant="link" size="lg">
           {name}
         </Button>
       </div>
+      <Concert />
     </main>
   );
 }

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
-export const useUserData = (): UserData => {
+export const useAuth = (): UserData => {
   const router = useRouter();
   const [user, setUser] = useState<UserInfo | null>(null);
   const { data, error, isLoading } = useSWR<UserInfo>(
@@ -14,17 +14,16 @@ export const useUserData = (): UserData => {
   );
 
   useEffect(() => {
-    if (data?.code === 440) {
-      alert("Session expired!");
+    if (data?.code === 200) {
+      setUser(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data?.code === 401) {
       router.push("/");
     }
   }, [data, router]);
-
-  useEffect(() => {
-    if (!isLoading && !error && data && data.code === 200) {
-      setUser(data);
-    }
-  }, [data, error, isLoading]);
 
   return { user, error, isLoading };
 };
