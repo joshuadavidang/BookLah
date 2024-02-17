@@ -21,7 +21,7 @@ export default function Home() {
         <h2 className="text-lg hidden md:block">BookLah!</h2>
       </div>
       <div className="w-fit flex flex-col justify-center items-center md:w-3/5">
-        <Card className="mx-6 md:w-[525px]">
+        <Card className="mx-6 md:w-[400px] lg:w-[525px]">
           <CardHeader>
             <CardTitle>
               <div className="flex items-center gap-1">
