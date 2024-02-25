@@ -1,8 +1,11 @@
 "use client";
 
+import { backendAxiosPost } from "@/api/helper";
 import Concert from "@/components/Concert";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { BACK_END_API_URL } from "@/utils/constants";
+import { useEffect, useState } from "react";
 
 const TopPattern = () => {
   return (
@@ -18,6 +21,24 @@ const TopPattern = () => {
 
 export default function Discover() {
   const { user, error, isLoading } = useAuth();
+  const [nameData, setNameData] = useState<string>();
+
+  useEffect(() => {
+    if (user) {
+      const name = user?.userData.data["myinfo.name"] || "Guest";
+      setNameData(name);
+
+      const dataObj = {
+        userId: user?.userData.sub,
+        name: name,
+        gender: "Male",
+      };
+
+      const apiURL = `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_SAVE_USER_INFORMATION}`;
+      backendAxiosPost(apiURL, dataObj);
+    }
+  }, [user]);
+
   if (isLoading) {
     return (
       <div className="flex h-screen justify-center items-center">
@@ -26,14 +47,12 @@ export default function Discover() {
     );
   }
 
-  const name = user?.userData.data["myinfo.name"] || "Guest";
-
   return (
     <main className="flex flex-col justify-start items-center min-h-screen">
       <TopPattern />
       <div className="hidden absolute top-10 right-10 justify-end lg:flex w-screen">
         <Button variant="link" size="lg">
-          {name}
+          {nameData}
         </Button>
       </div>
       <Concert />
