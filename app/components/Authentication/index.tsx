@@ -12,7 +12,7 @@ export default function AuthenticationButton() {
   const router = useRouter();
   const { data } = useSWR(
     `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_AUTH}`,
-    fetcher
+    fetcher,
   );
 
   const handleSingPassBtn = async () => {

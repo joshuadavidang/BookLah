@@ -1,11 +1,10 @@
 import { useConcertDetails } from "@/hooks/useConcertDetails";
+import { ConcertCardProp } from "@/types/concertDetails";
 import ConcertCard from "./ConcertCard";
 import ConcertSearch from "./ConcertSearch";
-import { ConcertCardProp } from "@/types/concertDetails";
 
 export default function Concert() {
   const { data } = useConcertDetails();
-  console.log(data);
 
   return (
     <div className="relative lg:-top-20">
@@ -31,7 +30,7 @@ export default function Concert() {
             capacity={capacity}
             venue={venue}
           />
-        )
+        ),
       )}
     </div>
   );

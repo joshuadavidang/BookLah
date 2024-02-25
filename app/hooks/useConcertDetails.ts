@@ -1,6 +1,4 @@
 import { fetcher } from "@/api/helper";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 export const useConcertDetails = () => {
