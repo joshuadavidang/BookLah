@@ -13,8 +13,6 @@ export default function ConcertCard({
   venue,
   date,
   time,
-  capacity,
-  concert_type,
 }: ConcertCardProp) {
   return (
     <Card className="my-6 w-[300px] md:w-[400px] lg:w-[525px]">

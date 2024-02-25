@@ -10,7 +10,7 @@ export const useAuth = (): UserData => {
   const [user, setUser] = useState<UserInfo | null>(null);
   const { data, error, isLoading } = useSWR<UserInfo>(
     `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_USER_DATA}`,
-    fetcher
+    fetcher,
   );
 
   useEffect(() => {

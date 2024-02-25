@@ -20,7 +20,7 @@ const TopPattern = () => {
 };
 
 export default function Discover() {
-  const { user, error, isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
   const [nameData, setNameData] = useState<string>();
 
   useEffect(() => {
