@@ -7,4 +7,11 @@ const fetcher = async (url: string) => {
   return response.data;
 };
 
-export { fetcher };
+const backendAxiosPost = async (url: string, data: any) => {
+  const response = await axios.post(url, data, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export { fetcher, backendAxiosPost };

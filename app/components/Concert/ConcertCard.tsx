@@ -5,36 +5,31 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-type ConcertDisplayProps = {
-  name: string;
-  guest: string;
-  date: string;
-  time: string;
-  location: string;
-};
+import { ConcertCardProp } from "@/types/concertDetails";
 
 export default function ConcertCard({
-  name,
-  guest,
+  performer,
+  title,
+  venue,
   date,
   time,
-  location,
-}: ConcertDisplayProps) {
+  capacity,
+  concert_type,
+}: ConcertCardProp) {
   return (
     <Card className="my-6 w-[300px] md:w-[400px] lg:w-[525px]">
       <CardHeader>
         <CardTitle>
           <div className="flex items-center gap-1">
-            <h1 className="text-2xl">{name}</h1>
+            <h1 className="text-2xl">{title}</h1>
           </div>
         </CardTitle>
-        <CardDescription>{guest}</CardDescription>
+        <CardDescription>{performer}</CardDescription>
       </CardHeader>
       <CardContent>
         <p>{date}</p>
+        <p>{venue}</p>
         <p>{time}</p>
-        <p>{location}</p>
       </CardContent>
     </Card>
   );
