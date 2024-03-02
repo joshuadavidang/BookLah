@@ -12,7 +12,7 @@ export default function AuthenticationButton() {
   const router = useRouter();
   const { data } = useSWR(
     `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_AUTH}`,
-    fetcher,
+    fetcher
   );
 
   const handleSingPassBtn = async () => {
@@ -29,7 +29,7 @@ export default function AuthenticationButton() {
   }, [user, router]);
 
   return (
-    <Button variant="default" onClick={handleSingPassBtn}>
+    <Button variant="dark" size="md" onClick={handleSingPassBtn}>
       Login with
       <Image src={Singpass} alt="Singpass" width={80} className="ml-1 mt-1.5" />
     </Button>
