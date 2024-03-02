@@ -11,26 +11,29 @@ export default function Concert() {
       <h1 className="text-2xl mb-3">Discover the latest concert</h1>
       <h2 className="text-muted-foreground mb-5">Search for it below</h2>
       <ConcertSearch />
-      {data?.data.map(
+      {data?.data.concerts.map(
         ({
-          id,
+          concertid,
           performer,
           title,
           venue,
           date,
           time,
           capacity,
+          description,
         }: ConcertCardProp) => (
           <ConcertCard
-            key={id}
+            key={concertid}
+            concertid={concertid ?? 0}
             performer={performer}
             title={title}
             date={date}
             time={time}
             capacity={capacity}
             venue={venue}
+            description={description}
           />
-        ),
+        )
       )}
     </div>
   );
