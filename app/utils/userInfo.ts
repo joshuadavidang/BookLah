@@ -1,3 +1,5 @@
+import { UserType } from "@/types/concertDetails";
+
 interface UserData {
   user: UserInfo | null;
   error: Error;
@@ -11,6 +13,7 @@ interface UserInfo {
     sub: string;
     data: {
       "myinfo.name": string;
+      userType: UserType;
     };
   };
 }

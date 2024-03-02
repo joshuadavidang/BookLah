@@ -14,4 +14,11 @@ const backendAxiosPost = async (url: string, data: any) => {
   return response.data;
 };
 
-export { fetcher, backendAxiosPost };
+const backendAxiosDelete = async (url: string) => {
+  const response = await axios.delete(url, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export { fetcher, backendAxiosPost, backendAxiosDelete };

@@ -1,17 +1,18 @@
-enum ConcertType {
-  SOLO = "SOLO",
-  GROUP = "GROUP",
+export enum UserType {
+  USER = "USER",
+  ADMIN = "ADMIN",
 }
 
 interface ConcertCardProp {
   id?: number;
+  concertid: number;
   performer: string;
   title: string;
   venue: string;
   date: string;
   time: string;
   capacity: number;
-  concert_type?: ConcertType;
+  description: string;
 }
 
 export type { ConcertCardProp };
