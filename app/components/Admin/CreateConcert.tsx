@@ -1,15 +1,7 @@
 import { backendAxiosPost } from "@/api/helper";
 import SuccessComponent from "@/components/Success";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
+import Stepper from "./Stepper";
 
 const formSchema = z.object({
   performer: z.string().min(2).max(50),
@@ -82,132 +75,65 @@ export default function CreateConcert() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             {stepper === 0 && (
-              <FormField
+              <Stepper
                 control={form.control}
-                name="performer"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <h1 className="text-2xl pb-3">Who's performing?</h1>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Taylor Swift" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                nameField="performer"
+                title="Who's performing?"
+                placeholder="Taylor Swift"
               />
             )}
 
             {stepper === 1 && (
-              <FormField
+              <Stepper
                 control={form.control}
-                name="venue"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <h1 className="text-2xl pb-3">Where is it?</h1>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Location" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                nameField="venue"
+                title="Where is it?"
+                placeholder="Location"
               />
             )}
 
             {stepper === 2 && (
-              <FormField
+              <Stepper
                 control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <h1 className="text-2xl pb-3">When is it?</h1>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Date" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                nameField="date"
+                title="When is it?"
+                placeholder="Date"
               />
             )}
 
             {stepper === 3 && (
-              <FormField
+              <Stepper
                 control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <h1 className="text-2xl pb-3">
-                        What is the name of the concert?
-                      </h1>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Concert name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                nameField="title"
+                title="What is the name of concert?"
+                placeholder="Concert name"
               />
             )}
 
             {stepper === 4 && (
-              <FormField
+              <Stepper
                 control={form.control}
-                name="time"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <h1 className="text-2xl pb-3">What time would it be?</h1>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Time" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                nameField="time"
+                title="What time would it be"
+                placeholder="Time"
               />
             )}
 
             {stepper === 5 && (
-              <FormField
+              <Stepper
                 control={form.control}
-                name="capacity"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <h1 className="text-2xl pb-3">What is the capacity?</h1>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Capacity" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                nameField="capacity"
+                title="What is the capacity?"
+                placeholder="Capacity"
               />
             )}
 
             {stepper === 6 && (
-              <FormField
+              <Stepper
                 control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <h1 className="text-2xl pb-3">
-                        Give a concert description
-                      </h1>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Describe the concert" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                nameField="description"
+                title="Give a concert description"
+                placeholder="Describe the concert"
               />
             )}
 
@@ -215,7 +141,6 @@ export default function CreateConcert() {
               <Button variant="dark" size="sm" onClick={handleBack}>
                 {stepper === 0 ? "Restart" : "Back"}
               </Button>
-
               {stepper === 6 ? (
                 <Button variant="green" size="sm" type="submit">
                   Submit
