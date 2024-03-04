@@ -21,7 +21,7 @@ export const useAuth = (): UserData => {
 
   useEffect(() => {
     if (data?.code === 401) {
-      //router.push("/");
+      router.push("/");
     }
   }, [data, router]);
 

@@ -22,10 +22,7 @@ export default function ConcertCard({
   };
 
   return (
-    <Card
-      className="my-6 w-[300px] md:w-[400px] lg:w-[525px] cursor-pointer"
-      onClick={() => navigateDetails(concertid)}
-    >
+    <Card className="cursor-pointer" onClick={() => navigateDetails(concertid)}>
       <CardHeader>
         <CardTitle>
           <div className="flex items-center gap-1">

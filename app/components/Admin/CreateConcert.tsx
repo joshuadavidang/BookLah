@@ -140,7 +140,13 @@ export default function CreateConcert() {
 
             <div className="flex justify-between gap-2 mt-12">
               <Button variant="ghost" size="sm" onClick={handleBack}>
-                {stepper === 0 ? "Restart" : <ArrowLeft />}
+                {stepper === 0 ? (
+                  "Restart"
+                ) : (
+                  <div className="flex gap-2 items-center">
+                    <ArrowLeft size="18px" /> Previous
+                  </div>
+                )}
               </Button>
               {stepper === 6 ? (
                 <Button variant="dark" size="sm" type="submit">
@@ -148,12 +154,15 @@ export default function CreateConcert() {
                 </Button>
               ) : (
                 <Button
-                  variant="dark"
+                  variant="ghost"
                   type="button"
                   size="sm"
                   onClick={handleNext}
                 >
-                  <ArrowRight />
+                  <div className="flex gap-2 items-center ">
+                    Next
+                    <ArrowRight size="18px" />
+                  </div>
                 </Button>
               )}
             </div>
