@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={raleway.className}>
         <TopPattern />
-        <main className="flex flex-col justify-start items-center min-h-fit">
+        <main className="flex flex-col justify-start items-center min-h-screen">
           {children}
           <Toaster />
         </main>
