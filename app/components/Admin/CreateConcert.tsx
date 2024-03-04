@@ -3,6 +3,7 @@ import SuccessComponent from "@/components/Success";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,7 +14,7 @@ import Stepper from "./Stepper";
 
 const formSchema = z.object({
   performer: z.string().min(2).max(50),
-  date: z.string().min(2).max(50),
+  date: z.date(),
   title: z.string().min(2).max(50),
   venue: z.string().min(2).max(50),
   time: z.string().min(2).max(50),
@@ -30,7 +31,7 @@ export default function CreateConcert() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       performer: "",
-      date: "",
+      date: new Date(),
       title: "",
       venue: "",
       time: "",
@@ -105,7 +106,7 @@ export default function CreateConcert() {
               <Stepper
                 control={form.control}
                 nameField="title"
-                title="What is the name of concert?"
+                title="What is the name of the concert?"
                 placeholder="Concert name"
               />
             )}
@@ -114,7 +115,7 @@ export default function CreateConcert() {
               <Stepper
                 control={form.control}
                 nameField="time"
-                title="What time would it be"
+                title="What time would it be?"
                 placeholder="Time"
               />
             )}
@@ -138,21 +139,21 @@ export default function CreateConcert() {
             )}
 
             <div className="flex justify-between gap-2 mt-12">
-              <Button variant="dark" size="sm" onClick={handleBack}>
-                {stepper === 0 ? "Restart" : "Back"}
+              <Button variant="ghost" size="sm" onClick={handleBack}>
+                {stepper === 0 ? "Restart" : <ArrowLeft />}
               </Button>
               {stepper === 6 ? (
-                <Button variant="green" size="sm" type="submit">
+                <Button variant="dark" size="sm" type="submit">
                   Submit
                 </Button>
               ) : (
                 <Button
-                  variant="green"
+                  variant="dark"
                   type="button"
                   size="sm"
                   onClick={handleNext}
                 >
-                  Next
+                  <ArrowRight />
                 </Button>
               )}
             </div>

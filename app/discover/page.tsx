@@ -8,11 +8,23 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { UserType } from "@/types/concertDetails";
 import { BACK_END_API_URL } from "@/utils/constants";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Discover() {
   const { user, isLoading } = useAuth();
   const [nameData, setNameData] = useState<string>();
+  const path = usePathname();
+  const smoothScroll = path === "/discover";
+
+  useEffect(() => {
+    if (smoothScroll) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  });
 
   useEffect(() => {
     if (user) {
@@ -40,7 +52,7 @@ export default function Discover() {
   return (
     <>
       <div className="hidden absolute top-10 right-10 justify-end lg:flex w-screen">
-        <Button variant="link" size="lg">
+        <Button variant="link" size="lg" className="text-gray-100">
           {nameData}
         </Button>
       </div>

@@ -15,7 +15,7 @@ export default function Admin() {
     <div className="relative lg:-top-20 lg:w-1/3">
       <div>
         <div className="mb-12">
-          <h1 className="text-3xl text-center">Start Creating...</h1>
+          <h1 className="text-2xl text-center">Start Creating...</h1>
         </div>
         <Button
           variant="dark"
@@ -28,7 +28,7 @@ export default function Admin() {
       </div>
 
       <div className="mt-12">
-        <h1 className="text-3xl text-center">Previously Created</h1>
+        <h1 className="text-2xl text-center">Previously Created</h1>
         {data?.data.map(
           ({
             concertid,
