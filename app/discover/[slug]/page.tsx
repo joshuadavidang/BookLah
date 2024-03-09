@@ -15,7 +15,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
+
 import { useConcertDetail } from "@/hooks/useConcertDetails";
 import { UserType } from "@/types/concertDetails";
 import { ArrowLeft } from "lucide-react";
@@ -26,9 +26,8 @@ const ConcertDetails = (params: any) => {
   const { slug } = params.params;
   const { data, isLoading } = useConcertDetail(slug);
   const router = useRouter();
-  const { user } = useAuth();
 
-  const isAdmin = user?.userData?.data?.userType === UserType.ADMIN;
+  const isAdmin = localStorage.getItem("userType") === UserType.ADMIN;
 
   useEffect(() => {
     window.scrollTo({
@@ -58,6 +57,10 @@ const ConcertDetails = (params: any) => {
     if (response.code === 200) {
       router.push("/discover");
     }
+  };
+
+  const handleBooking = () => {
+    router.push("/process-booking");
   };
 
   return (
@@ -110,7 +113,7 @@ const ConcertDetails = (params: any) => {
                 </AlertDialog>
               </div>
             ) : (
-              <Button variant="dark" size="lg">
+              <Button variant="dark" size="lg" onClick={handleBooking}>
                 Book Ticket
               </Button>
             )}

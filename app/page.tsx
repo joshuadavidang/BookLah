@@ -9,35 +9,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useAuth } from "@/hooks/useAuth";
-import { BACK_END_API_URL, DISCOVER_URL } from "@/utils/constants";
+import { BACK_END_API_URL } from "@/utils/constants";
 import Image from "next/image";
 import Flash from "~/flash.png";
 import Hero from "~/hero.png";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import Singpass from "~/singpass.svg";
 import { UserType } from "./types/concertDetails";
 
 export default function Home() {
-  const router = useRouter();
-
   const handleSingPassBtn = async (userType: UserType) => {
     const response = await fetcher(
       `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_AUTH}?code=${userType}`
     );
     window.location.href = response.url;
   };
-
-  const { user } = useAuth();
-
-  console.log(user);
-
-  useEffect(() => {
-    if (user !== null) {
-      router.push(DISCOVER_URL);
-    }
-  }, [user, router]);
 
   return (
     <main className="flex flex-col md:flex-row h-screen w-full pt-24 md:pt-0">
