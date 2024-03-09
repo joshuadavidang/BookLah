@@ -1,5 +1,6 @@
 "use client";
 
+import { ProtectComponent } from "@/ProtectComponent";
 import { backendAxiosDelete } from "@/api/helper";
 import LoadingIndicator from "@/components/Loading";
 import {
@@ -21,7 +22,7 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function ConcertDetails(params: any) {
+const ConcertDetails = (params: any) => {
   const { slug } = params.params;
   const { data, isLoading } = useConcertDetail(slug);
   const router = useRouter();
@@ -118,4 +119,6 @@ export default function ConcertDetails(params: any) {
       </div>
     </div>
   );
-}
+};
+
+export default ProtectComponent(ConcertDetails);

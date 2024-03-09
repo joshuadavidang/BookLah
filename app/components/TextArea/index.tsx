@@ -5,21 +5,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Textarea as ShadcnTextArea } from "@/components/ui/textarea";
 
-interface StepperProps {
+interface TextAreaProps {
   control: any;
   nameField: string;
   title: string;
   placeholder: string;
 }
 
-export default function Stepper({
+export default function TextArea({
   control,
   nameField,
   title,
   placeholder,
-}: StepperProps) {
+}: TextAreaProps) {
   return (
     <FormField
       control={control}
@@ -27,10 +27,10 @@ export default function Stepper({
       render={({ field }) => (
         <FormItem>
           <FormLabel>
-            <h1 className="text-2xl pb-3">{title}</h1>
+            <h1 className="text-2l pb-3">{title}</h1>
           </FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} {...field} />
+            <ShadcnTextArea placeholder={placeholder} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

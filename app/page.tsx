@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
-import { BACK_END_API_URL } from "@/utils/constants";
+import { BACK_END_API_URL, DISCOVER_URL } from "@/utils/constants";
 import Image from "next/image";
 import Flash from "~/flash.png";
 import Hero from "~/hero.png";
@@ -31,9 +31,11 @@ export default function Home() {
 
   const { user } = useAuth();
 
+  console.log(user);
+
   useEffect(() => {
     if (user !== null) {
-      router.push("/discover");
+      router.push(DISCOVER_URL);
     }
   }, [user, router]);
 

@@ -27,35 +27,37 @@ export default function Admin() {
         </div>
       </div>
 
-      <div className="flex flex-col px-12 mt-12 gap-6">
-        <h1 className="text-2xl text-center">Previously Created</h1>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {data?.data.map(
-            ({
-              concertid,
-              performer,
-              title,
-              venue,
-              date,
-              time,
-              capacity,
-              description,
-            }: ConcertCardProp) => (
-              <ConcertCard
-                key={concertid}
-                concertid={concertid ?? 0}
-                performer={performer}
-                title={title}
-                date={date}
-                time={time}
-                capacity={capacity}
-                venue={venue}
-                description={description}
-              />
-            )
-          )}
+      {data && (
+        <div className="flex flex-col px-12 mt-12 gap-6">
+          <h1 className="text-2xl text-center">Previously Created</h1>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {data?.data.map(
+              ({
+                concertid,
+                performer,
+                title,
+                venue,
+                date,
+                time,
+                capacity,
+                description,
+              }: ConcertCardProp) => (
+                <ConcertCard
+                  key={concertid}
+                  concertid={concertid ?? 0}
+                  performer={performer}
+                  title={title}
+                  date={date}
+                  time={time}
+                  capacity={capacity}
+                  venue={venue}
+                  description={description}
+                />
+              )
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

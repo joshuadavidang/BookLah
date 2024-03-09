@@ -1,5 +1,6 @@
 "use client";
 
+import { ProtectComponent } from "@/ProtectComponent";
 import { backendAxiosPost } from "@/api/helper";
 import Admin from "@/components/Admin";
 import Concert from "@/components/Concert";
@@ -11,7 +12,7 @@ import { BACK_END_API_URL } from "@/utils/constants";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Discover() {
+const Discover = () => {
   const { user, isLoading } = useAuth();
   const [nameData, setNameData] = useState<string>();
   const path = usePathname();
@@ -59,4 +60,6 @@ export default function Discover() {
       {isAdmin ? <Admin /> : <Concert />}
     </>
   );
-}
+};
+
+export default ProtectComponent(Discover);
