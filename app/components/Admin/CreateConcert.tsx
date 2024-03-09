@@ -22,19 +22,6 @@ const formSchema = z.object({
 export default function CreateConcert() {
   const [successState, setSuccessState] = useState(false);
   const [formData, setFormData] = useState<any>();
-  const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      performer: "",
-      date: new Date(),
-      title: "",
-      venue: "",
-      time: "",
-      capacity: "",
-      description: "",
-    },
-  });
 
   useEffect(() => {
     window.scrollTo({
