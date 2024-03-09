@@ -1,13 +1,14 @@
-import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
 import { useAdminCreatedConcert } from "@/hooks/useConcertDetails";
 import { ConcertCardProp } from "@/types/concertDetails";
+import { useRouter } from "next/navigation";
 import ConcertCard from "../Concert/ConcertCard";
 import LoadingIndicator from "../Loading";
+import { Button } from "../ui/button";
 
 export default function Admin() {
   const router = useRouter();
-  const { data, isLoading } = useAdminCreatedConcert("kc7gi4finn2si34e88kd");
+  const userId = localStorage.getItem("user") || "";
+  const { data, isLoading } = useAdminCreatedConcert(userId);
 
   if (isLoading) return <LoadingIndicator />;
 

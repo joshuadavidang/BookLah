@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 
 import { useConcertDetail } from "@/hooks/useConcertDetails";
 import { UserType } from "@/types/concertDetails";
+import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -26,7 +27,6 @@ const ConcertDetails = (params: any) => {
   const { slug } = params.params;
   const { data, isLoading } = useConcertDetail(slug);
   const router = useRouter();
-
   const isAdmin = localStorage.getItem("userType") === UserType.ADMIN;
 
   useEffect(() => {
@@ -59,8 +59,12 @@ const ConcertDetails = (params: any) => {
     }
   };
 
-  const handleBooking = () => {
-    router.push("/process-booking");
+  const handleBooking = async () => {
+    const response = await axios.post(
+      "http://localhost:5002/process_payment",
+      {}
+    );
+    window.location.href = response.data.checkout_url;
   };
 
   return (
