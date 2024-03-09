@@ -1,9 +1,6 @@
 import { backendAxiosPost } from "@/api/helper";
 import SuccessComponent from "@/components/Success";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
