@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import ConcertCard from "../Concert/ConcertCard";
 import LoadingIndicator from "../Loading";
 import { Button } from "../ui/button";
+import { FORM_URL } from "@/utils/constants";
 
 export default function Admin() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function Admin() {
             variant="dark"
             size="lg"
             className="w-1/3"
-            onClick={() => router.push("/form")}
+            onClick={() => router.push(FORM_URL)}
           >
             Get Started
           </Button>
