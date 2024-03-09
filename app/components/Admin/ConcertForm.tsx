@@ -24,6 +24,7 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
       venue: "",
       time: "",
       capacity: 0,
+      price: 0,
       description: "",
     },
   });
@@ -84,6 +85,14 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
               nameField="capacity"
               title="No. of available tickets?"
               placeholder="e.g 50,000"
+            />
+
+            <Input
+              control={form.control}
+              type="number"
+              nameField="price"
+              title="Price"
+              placeholder="e.g $1000"
             />
 
             <div className="col-span-2">

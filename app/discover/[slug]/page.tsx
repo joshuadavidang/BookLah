@@ -60,7 +60,7 @@ const ConcertDetails = (params: any) => {
 
   const handleBooking = async () => {
     const response = await axios.post(
-      "http://localhost:5002/process_payment",
+      String(process.env.NEXT_PUBLIC_PROCESS_PAYMENT),
       {}
     );
     window.location.href = response.data.checkout_url;
