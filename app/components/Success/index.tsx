@@ -19,7 +19,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 import { useRouter } from "next/navigation";
 
 export default function SuccessComponent({ data }: any) {
@@ -35,7 +34,7 @@ export default function SuccessComponent({ data }: any) {
   };
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <h1>Here's what you have created!</h1>
       <Card className="my-6 w-[300px] md:w-[400px] lg:w-[525px] cursor-pointer">
         <CardHeader>

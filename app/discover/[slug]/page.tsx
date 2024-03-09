@@ -1,14 +1,8 @@
 "use client";
 
+import { ProtectComponent } from "@/ProtectComponent";
 import { backendAxiosDelete } from "@/api/helper";
 import LoadingIndicator from "@/components/Loading";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
-import { useConcertDetail } from "@/hooks/useConcertDetails";
-import { UserType } from "@/types/concertDetails";
-import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,14 +14,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
-export default function ConcertDetails(params: any) {
+import { useConcertDetail } from "@/hooks/useConcertDetails";
+import { UserType } from "@/types/concertDetails";
+import axios from "axios";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+const ConcertDetails = (params: any) => {
   const { slug } = params.params;
   const { data, isLoading } = useConcertDetail(slug);
   const router = useRouter();
-  const { user } = useAuth();
-
-  const isAdmin = user?.userData?.data?.userType === UserType.ADMIN;
+  const isAdmin = localStorage.getItem("userType") === UserType.ADMIN;
 
   useEffect(() => {
     window.scrollTo({
@@ -59,10 +59,20 @@ export default function ConcertDetails(params: any) {
     }
   };
 
+  const handleBooking = async () => {
+    const response = await axios.post(
+      "http://localhost:5002/process_payment",
+      {}
+    );
+    window.location.href = response.data.checkout_url;
+  };
+
   return (
     <div className="relative lg:-top-20 w-screen">
       <div className="flex justify-evenly">
-        <ArrowLeft className="cursor-pointer" onClick={() => router.back()} />
+        <Button variant="ghost" onClick={() => router.back()}>
+          <ArrowLeft className="cursor-pointer" />{" "}
+        </Button>
         <h1>{performer}</h1>
         <span></span>
       </div>
@@ -76,33 +86,38 @@ export default function ConcertDetails(params: any) {
           <h2>{title}</h2>
           <h2>{description}</h2>
           <h2>Seats Available - {capacity}</h2>
-          <div className="pt-6">
+          <div className="flex justify-center pt-6">
             {isAdmin ? (
-              <AlertDialog>
-                <AlertDialogTrigger>
-                  <Button variant="secondary" size="lg">
-                    Delete
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your created concert and remove your data from our
-                      servers.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => handleDelete(concertid)}>
-                      Continue
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              <div className="flex gap-4">
+                <Button size="lg">Edit</Button>
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <Button variant="secondary" size="lg">
+                      Delete
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your created concert and remove your data from
+                        our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => handleDelete(concertid)}
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
             ) : (
-              <Button variant="dark" size="lg">
+              <Button variant="dark" size="lg" onClick={handleBooking}>
                 Book Ticket
               </Button>
             )}
@@ -111,4 +126,6 @@ export default function ConcertDetails(params: any) {
       </div>
     </div>
   );
-}
+};
+
+export default ProtectComponent(ConcertDetails);

@@ -9,33 +9,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useAuth } from "@/hooks/useAuth";
 import { BACK_END_API_URL } from "@/utils/constants";
 import Image from "next/image";
 import Flash from "~/flash.png";
 import Hero from "~/hero.png";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import Singpass from "~/singpass.svg";
 import { UserType } from "./types/concertDetails";
 
 export default function Home() {
-  const router = useRouter();
-
   const handleSingPassBtn = async (userType: UserType) => {
     const response = await fetcher(
       `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_AUTH}?code=${userType}`
     );
     window.location.href = response.url;
   };
-
-  const { user } = useAuth();
-
-  useEffect(() => {
-    if (user !== null) {
-      router.push("/discover");
-    }
-  }, [user, router]);
 
   return (
     <main className="flex flex-col md:flex-row h-screen w-full pt-24 md:pt-0">
@@ -45,7 +32,7 @@ export default function Home() {
         <h2 className="text-lg hidden md:block">BookLah!</h2>
       </div>
       <div className="w-fit flex flex-col justify-center items-center md:w-3/5">
-        <Card className="mx-6 md:w-[400px] lg:w-[525px]">
+        <Card className="mx-6 w-screen md:w-[400px] lg:w-[525px]">
           <CardHeader>
             <CardTitle>
               <div className="flex items-center gap-1 pb-3">
