@@ -10,3 +10,9 @@ export const formSchema = z.object({
   price: z.coerce.number().int().min(1),
   description: z.string().min(5).max(1000),
 });
+
+export const bookingFormSchema = z.object({
+  // date: z.date(),
+  // category: z.string().min(2).max(50),
+  capacity: z.coerce.number().int().min(1),
+});

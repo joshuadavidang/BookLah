@@ -3,6 +3,7 @@
 import { backendAxiosPost, fetcher } from "@/api/helper";
 import { BACK_END_API_URL } from "@/utils/constants";
 import { type UserInfo } from "@/utils/userInfo";
+import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import useSWR from "swr";
 import LoadingIndicator from "./components/Loading";
@@ -35,7 +36,7 @@ export const ProtectComponent = (WrappedComponent: any) => {
           userId: userData.userData.sub,
           name: name,
           gender: "Male",
-          userType: userData.userData.data.userType,
+          userType: isAdmin ? UserType.ADMIN : UserType.USER,
         };
 
         const apiURL = `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_SAVE_USER_INFORMATION}`;
@@ -43,8 +44,8 @@ export const ProtectComponent = (WrappedComponent: any) => {
       }
     }, [userData]);
 
+    if (error) return redirect("/");
     if (isLoading) return <LoadingIndicator />;
-    if (error) return <div>Error loading user data</div>;
 
     return <WrappedComponent {...props} />;
   };

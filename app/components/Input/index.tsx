@@ -29,7 +29,7 @@ export default function Input({
       render={({ field }) => (
         <FormItem>
           <FormLabel>
-            <h1 className="text-2l pb-3">{title}</h1>
+            <h1 className="text-xl pb-3">{title}</h1>
           </FormLabel>
           <FormControl>
             <ShadcnInput type={type} placeholder={placeholder} {...field} />
