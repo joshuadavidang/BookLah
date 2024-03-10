@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useConcertDetail } from "@/hooks/useConcertDetails";
 import { ConcertStatus, UserType } from "@/types/concertDetails";
-import { DISCOVER_URL } from "@/utils/constants";
+import { DISCOVER_URL, FORM_URL } from "@/utils/constants";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -40,6 +40,10 @@ const ConcertDetails = (params: any) => {
   if (isLoading) return <LoadingIndicator />;
 
   const concertDetails = data.data;
+
+  const handleEdit = () => {
+    router.push(`${FORM_URL}/${slug}`);
+  };
 
   const {
     concert_id,
@@ -116,7 +120,7 @@ const ConcertDetails = (params: any) => {
           <div className="flex justify-center pt-6">
             {isAdmin ? (
               <div className="flex gap-4">
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" onClick={handleEdit}>
                   Edit
                 </Button>
                 <AlertDialog>
