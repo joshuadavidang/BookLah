@@ -3,9 +3,14 @@ export enum UserType {
   ADMIN = "ADMIN",
 }
 
+export enum ConcertStatus {
+  AVAILABLE = "AVAILABLE",
+  CANCELLED = "CANCELLED",
+}
+
 interface ConcertCardProp {
   id?: number;
-  concertid: number;
+  concert_id: number;
   performer: string;
   title: string;
   venue: string;

@@ -35,7 +35,7 @@ export default function Admin() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
             {data?.data.map(
               ({
-                concertid,
+                concert_id,
                 performer,
                 title,
                 venue,
@@ -45,8 +45,8 @@ export default function Admin() {
                 description,
               }: ConcertCardProp) => (
                 <ConcertCard
-                  key={concertid}
-                  concertid={concertid ?? 0}
+                  key={concert_id}
+                  concert_id={concert_id ?? 0}
                   performer={performer}
                   title={title}
                   date={date}

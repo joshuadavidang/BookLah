@@ -1,7 +1,7 @@
 "use client";
 
 import { ProtectComponent } from "@/ProtectComponent";
-import { backendAxiosDelete } from "@/api/helper";
+import { backendAxiosPut } from "@/api/helper";
 import LoadingIndicator from "@/components/Loading";
 import {
   AlertDialog,
@@ -16,11 +16,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useConcertDetail } from "@/hooks/useConcertDetails";
-import { UserType } from "@/types/concertDetails";
+import { ConcertStatus, UserType } from "@/types/concertDetails";
 import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Badge } from "@/components/ui/badge";
+import { DISCOVER_URL } from "@/utils/constants";
 
 const ConcertDetails = (params: any) => {
   const { slug } = params.params;
@@ -40,7 +42,8 @@ const ConcertDetails = (params: any) => {
   const concertDetails = data.data;
 
   const {
-    concertid,
+    concert_id,
+    concert_status,
     date,
     performer,
     description,
@@ -50,11 +53,16 @@ const ConcertDetails = (params: any) => {
     capacity,
   } = concertDetails;
 
-  const handleDelete = async (id: string) => {
-    const apiURL = `${process.env.NEXT_PUBLIC_DELETE_CONCERT}/${id}`;
-    const response = await backendAxiosDelete(apiURL);
+  const handleUpdate = async (id: string) => {
+    const apiURL = `${process.env.NEXT_PUBLIC_UPDATE_CONCERT_STATUS}/${id}`;
+    const response = await backendAxiosPut(apiURL, {
+      concertStatus:
+        concert_status === ConcertStatus.AVAILABLE
+          ? ConcertStatus.CANCELLED
+          : ConcertStatus.AVAILABLE,
+    });
     if (response.code === 200) {
-      router.push("/discover");
+      router.push(DISCOVER_URL);
     }
   };
 
@@ -66,6 +74,9 @@ const ConcertDetails = (params: any) => {
     window.location.href = response.data.checkout_url;
   };
 
+  const modalText =
+    concert_status === ConcertStatus.AVAILABLE ? "Cancelled?" : "Available?";
+
   return (
     <div className="relative lg:-top-20 w-screen">
       <div className="flex justify-evenly">
@@ -73,7 +84,15 @@ const ConcertDetails = (params: any) => {
           <ArrowLeft className="cursor-pointer" />{" "}
         </Button>
         <h1>{performer}</h1>
-        <span></span>
+        <Badge
+          variant={
+            concert_status === ConcertStatus.AVAILABLE
+              ? "success"
+              : "destructive"
+          }
+        >
+          {concert_status}
+        </Badge>
       </div>
 
       <div className="flex justify-center pt-12">
@@ -88,26 +107,32 @@ const ConcertDetails = (params: any) => {
           <div className="flex justify-center pt-6">
             {isAdmin ? (
               <div className="flex gap-4">
-                <Button size="lg">Edit</Button>
+                <Button size="lg" variant="outline">
+                  Edit
+                </Button>
                 <AlertDialog>
                   <AlertDialogTrigger>
-                    <Button variant="secondary" size="lg">
-                      Delete
-                    </Button>
+                    {concert_status === ConcertStatus.AVAILABLE ? (
+                      <Button variant="secondary" size="lg">
+                        Cancel Concert
+                      </Button>
+                    ) : (
+                      <Button variant="green" size="lg">
+                        Make Available
+                      </Button>
+                    )}
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your created concert and remove your data from
-                        our servers.
+                        Update concert to {modalText}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction
-                        onClick={() => handleDelete(concertid)}
+                        onClick={() => handleUpdate(concert_id)}
                       >
                         Continue
                       </AlertDialogAction>

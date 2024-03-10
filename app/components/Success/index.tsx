@@ -1,15 +1,3 @@
-import { backendAxiosDelete } from "@/api/helper";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,19 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { DISCOVER_URL } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 
 export default function SuccessComponent({ data }: any) {
-  const { concertid, performer, date, time, title, venue } = data;
+  const { performer, date, time, title, venue } = data;
   const router = useRouter();
-
-  const handleDelete = async (id: string) => {
-    const apiURL = `${process.env.NEXT_PUBLIC_DELETE_CONCERT}/${id}`;
-    const response = await backendAxiosDelete(apiURL);
-    if (response.code === 200) {
-      router.push("/discover");
-    }
-  };
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -53,34 +34,10 @@ export default function SuccessComponent({ data }: any) {
 
         <CardFooter className="flex justify-end gap-3 pr-12">
           <Button variant="link">Edit</Button>
-
-          <AlertDialog>
-            <AlertDialogTrigger>
-              <Button variant="secondary" size="sm">
-                Delete
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your created concert and remove your data from our servers.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleDelete(concertid)}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-
           <Button
-            variant="primary"
+            variant="colorScheme"
             size="sm"
-            onClick={() => router.push("/discover")}
+            onClick={() => router.push(DISCOVER_URL)}
           >
             View All
           </Button>
