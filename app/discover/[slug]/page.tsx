@@ -2,6 +2,7 @@
 
 import { ProtectComponent } from "@/ProtectComponent";
 import { backendAxiosPut } from "@/api/helper";
+import BookConcert from "@/components/Concert/BookConcert";
 import LoadingIndicator from "@/components/Loading";
 import {
   AlertDialog,
@@ -14,15 +15,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useConcertDetail } from "@/hooks/useConcertDetails";
 import { ConcertStatus, UserType } from "@/types/concertDetails";
-import axios from "axios";
+import { DISCOVER_URL, FORM_URL } from "@/utils/constants";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Badge } from "@/components/ui/badge";
-import { DISCOVER_URL } from "@/utils/constants";
 
 const ConcertDetails = (params: any) => {
   const { slug } = params.params;
@@ -67,11 +67,7 @@ const ConcertDetails = (params: any) => {
   };
 
   const handleBooking = async () => {
-    const response = await axios.post(
-      String(process.env.NEXT_PUBLIC_PROCESS_PAYMENT),
-      {}
-    );
-    window.location.href = response.data.checkout_url;
+    router.push(FORM_URL);
   };
 
   const modalText =
@@ -80,19 +76,37 @@ const ConcertDetails = (params: any) => {
   return (
     <div className="relative lg:-top-20 w-screen">
       <div className="flex justify-evenly">
-        <Button variant="ghost" onClick={() => router.back()}>
-          <ArrowLeft className="cursor-pointer" />{" "}
-        </Button>
-        <h1>{performer}</h1>
-        <Badge
-          variant={
-            concert_status === ConcertStatus.AVAILABLE
-              ? "success"
-              : "destructive"
-          }
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => router.back()}
+          className="flex gap-2 items-center"
         >
-          {concert_status}
-        </Badge>
+          <ArrowLeft size="18" /> Back
+        </Button>
+
+        <h1>{performer}</h1>
+        {isAdmin ? (
+          <Badge
+            variant={
+              concert_status === ConcertStatus.AVAILABLE
+                ? "success"
+                : "destructive"
+            }
+          >
+            {concert_status}
+          </Badge>
+        ) : (
+          <Badge
+            variant={
+              concert_status === ConcertStatus.AVAILABLE
+                ? "success"
+                : "destructive"
+            }
+          >
+            {capacity} SEATS AVAILABLE
+          </Badge>
+        )}
       </div>
 
       <div className="flex justify-center pt-12">
@@ -103,7 +117,6 @@ const ConcertDetails = (params: any) => {
           </h2>
           <h2>{title}</h2>
           <h2>{description}</h2>
-          <h2>Seats Available - {capacity}</h2>
           <div className="flex justify-center pt-6">
             {isAdmin ? (
               <div className="flex gap-4">
@@ -141,9 +154,7 @@ const ConcertDetails = (params: any) => {
                 </AlertDialog>
               </div>
             ) : (
-              <Button variant="dark" size="lg" onClick={handleBooking}>
-                Book Ticket
-              </Button>
+              <BookConcert />
             )}
           </div>
         </div>

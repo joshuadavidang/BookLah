@@ -42,6 +42,7 @@ export default function Admin() {
                 date,
                 time,
                 capacity,
+                concert_status,
                 description,
               }: ConcertCardProp) => (
                 <ConcertCard
@@ -54,6 +55,7 @@ export default function Admin() {
                   capacity={capacity}
                   venue={venue}
                   description={description}
+                  concert_status={concert_status}
                 />
               )
             )}

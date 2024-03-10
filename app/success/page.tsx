@@ -1,5 +1,6 @@
 "use client";
 
+import { ProtectComponent } from "@/ProtectComponent";
 import LoadingIndicator from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { DISCOVER_URL } from "@/utils/constants";
@@ -7,7 +8,7 @@ import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Success() {
+const Success = () => {
   const [customerEmail, setCustomerEmail] = useState(null);
   const router = useRouter();
   const searchParam = useSearchParams();
@@ -49,4 +50,6 @@ export default function Success() {
       </div>
     </div>
   );
-}
+};
+
+export default ProtectComponent(Success);

@@ -25,6 +25,7 @@ export default function Concert() {
             time,
             capacity,
             description,
+            concert_status,
           }: ConcertCardProp) => (
             <ConcertCard
               key={concert_id}
@@ -36,6 +37,7 @@ export default function Concert() {
               capacity={capacity}
               venue={venue}
               description={description}
+              concert_status={concert_status}
             />
           )
         )}

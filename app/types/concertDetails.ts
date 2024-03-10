@@ -17,6 +17,7 @@ interface ConcertCardProp {
   date: string;
   time: string;
   capacity: number;
+  concert_status: ConcertStatus;
   description: string;
 }
 
