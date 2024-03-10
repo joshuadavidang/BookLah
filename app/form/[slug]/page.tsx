@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useConcertDetail } from "@/hooks/useConcertDetails";
 import { formSchema } from "@/model/formSchema";
-import { DISCOVER_URL } from "@/utils/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -17,14 +16,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-interface ConcertFormProps {
-  onClick: any;
-}
-
-export default function EditedConcertForm(
-  params,
-  { onClick }: ConcertFormProps
-) {
+export default function EditedConcertForm(params: any) {
   const router = useRouter();
   const { data, isLoading } = useConcertDetail(params.params.slug);
 
