@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useConcertDetail } from "@/hooks/useConcertDetails";
 import { ConcertStatus, UserType } from "@/types/concertDetails";
-import { DISCOVER_URL, FORM_URL } from "@/utils/constants";
+import { DISCOVER_URL } from "@/utils/constants";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -64,10 +64,6 @@ const ConcertDetails = (params: any) => {
     if (response.code === 200) {
       router.push(DISCOVER_URL);
     }
-  };
-
-  const handleBooking = async () => {
-    router.push(FORM_URL);
   };
 
   const modalText =
