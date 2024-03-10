@@ -7,9 +7,9 @@ export const useConcertDetails = () => {
   return { data, error, isLoading };
 };
 
-export const useConcertDetail = (concertid: string) => {
+export const useConcertDetail = (concert_id: string) => {
   const concertDetailsAPI =
-    process.env.NEXT_PUBLIC_GET_CONCERT + `/${concertid}` || "";
+    process.env.NEXT_PUBLIC_GET_CONCERT + `/${concert_id}` || "";
   const { data, error, isLoading } = useSWR(concertDetailsAPI, fetcher);
   return { data, error, isLoading };
 };

@@ -9,7 +9,7 @@ import { ConcertCardProp } from "@/types/concertDetails";
 import { useRouter } from "next/navigation";
 
 export default function ConcertCard({
-  concertid,
+  concert_id,
   performer,
   title,
   venue,
@@ -17,12 +17,15 @@ export default function ConcertCard({
   time,
 }: ConcertCardProp) {
   const router = useRouter();
-  const navigateDetails = (concertid: number) => {
-    router.push(`/discover/${concertid}`);
+  const navigateDetails = (concert_id: number) => {
+    router.push(`/discover/${concert_id}`);
   };
 
   return (
-    <Card className="cursor-pointer" onClick={() => navigateDetails(concertid)}>
+    <Card
+      className="cursor-pointer"
+      onClick={() => navigateDetails(concert_id)}
+    >
       <CardHeader>
         <CardTitle>
           <div className="flex items-center gap-1">

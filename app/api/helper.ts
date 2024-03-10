@@ -14,6 +14,13 @@ const backendAxiosPost = async (url: string, data: any) => {
   return response.data;
 };
 
+const backendAxiosPut = async (url: string, data: any) => {
+  const response = await axios.put(url, data, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
 const backendAxiosDelete = async (url: string) => {
   const response = await axios.delete(url, {
     withCredentials: true,
@@ -21,4 +28,4 @@ const backendAxiosDelete = async (url: string) => {
   return response.data;
 };
 
-export { fetcher, backendAxiosPost, backendAxiosDelete };
+export { fetcher, backendAxiosPost, backendAxiosPut, backendAxiosDelete };
