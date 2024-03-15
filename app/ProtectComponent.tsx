@@ -1,7 +1,7 @@
 "use client";
 
 import { backendAxiosPost, fetcher } from "@/api/helper";
-import { BACK_END_API_URL } from "@/utils/constants";
+import { BACK_END_API_URL, LANDING_URL } from "@/utils/constants";
 import { type UserInfo } from "@/utils/userInfo";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
@@ -9,44 +9,46 @@ import useSWR from "swr";
 import LoadingIndicator from "./components/Loading";
 import { UserType } from "./types/concertDetails";
 
-export const ProtectComponent = (WrappedComponent: any) => {
-  return function ProtectComponent(props: any) {
-    const {
-      data: userData,
-      error,
-      isLoading,
-    } = useSWR<UserInfo>(
-      `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_USER_DATA}`,
-      fetcher
-    );
+interface ProtectComponentProps {
+  children: React.ReactNode;
+}
 
-    useEffect(() => {
-      if (userData && userData.code === 200) {
-        const isAdmin = userData.userData.data.userType === UserType.ADMIN;
-        const name = userData.userData.data["myinfo.name"] || "Guest";
+export const ProtectComponent = ({ children }: ProtectComponentProps) => {
+  const {
+    data: userData,
+    error,
+    isLoading,
+  } = useSWR<UserInfo>(
+    `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_USER_DATA}`,
+    fetcher
+  );
 
-        localStorage.setItem("user", userData.userData.sub);
-        localStorage.setItem(
-          "userType",
-          isAdmin ? UserType.ADMIN : UserType.USER
-        );
-        localStorage.setItem("name", name);
+  useEffect(() => {
+    if (userData && userData.code === 200) {
+      const isAdmin = userData.userData.data.userType === UserType.ADMIN;
+      const name = userData.userData.data["myinfo.name"] || "Guest";
 
-        const dataObj = {
-          userId: userData.userData.sub,
-          name: name,
-          gender: "Male",
-          userType: isAdmin ? UserType.ADMIN : UserType.USER,
-        };
+      localStorage.setItem("user", userData.userData.sub);
+      localStorage.setItem(
+        "userType",
+        isAdmin ? UserType.ADMIN : UserType.USER
+      );
+      localStorage.setItem("name", name);
 
-        const apiURL = `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_SAVE_USER_INFORMATION}`;
-        backendAxiosPost(apiURL, dataObj);
-      }
-    }, [userData]);
+      const dataObj = {
+        userId: userData.userData.sub,
+        name: name,
+        gender: "Male",
+        userType: isAdmin ? UserType.ADMIN : UserType.USER,
+      };
 
-    if (error) return redirect("/");
-    if (isLoading) return <LoadingIndicator />;
+      const apiURL = `${BACK_END_API_URL}/${process.env.NEXT_PUBLIC_SAVE_USER_INFORMATION}`;
+      backendAxiosPost(apiURL, dataObj);
+    }
+  }, [userData]);
 
-    return <WrappedComponent {...props} />;
-  };
+  if (isLoading) return <LoadingIndicator />;
+  if (error) return redirect(LANDING_URL);
+
+  return <>{children}</>;
 };

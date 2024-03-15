@@ -8,7 +8,7 @@ import { UserType } from "@/types/concertDetails";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-const Discover = () => {
+export default function Discover() {
   const path = usePathname();
   const smoothScroll = path === "/discover";
 
@@ -25,15 +25,13 @@ const Discover = () => {
   const isAdmin = localStorage.getItem("userType") === UserType.ADMIN;
 
   return (
-    <>
+    <ProtectComponent>
       <div className="hidden absolute top-10 right-10 justify-end lg:flex w-screen">
         <Button variant="link" size="lg" className="text-gray-100">
           {name}
         </Button>
       </div>
       {isAdmin ? <Admin /> : <Concert />}
-    </>
+    </ProtectComponent>
   );
-};
-
-export default ProtectComponent(Discover);
+}
