@@ -1,4 +1,4 @@
-import { useConcertDetails } from "@/hooks/useConcertDetails";
+import { useConcertDetails } from "@/api";
 import { ConcertCardProp } from "@/types/concertDetails";
 import ConcertCard from "./ConcertCard";
 import ConcertSearch from "./ConcertSearch";

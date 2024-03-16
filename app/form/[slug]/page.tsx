@@ -1,5 +1,6 @@
 "use client";
 
+import { useConcertDetail } from "@/api";
 import { backendAxiosPut } from "@/api/helper";
 import { DatePicker } from "@/components/DatePicker/index";
 import Input from "@/components/Input";
@@ -7,18 +8,19 @@ import LoadingIndicator from "@/components/Loading";
 import TextArea from "@/components/TextArea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useConcertDetail } from "@/hooks/useConcertDetails";
+import { AuthContext } from "@/context";
 import { formSchema } from "@/model/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function EditedConcertForm(params: any) {
   const router = useRouter();
   const { data, isLoading } = useConcertDetail(params.params.slug);
+  const user = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,7 +53,7 @@ export default function EditedConcertForm(params: any) {
     const apiURL = `${process.env.NEXT_PUBLIC_UPDATE_CONCERT_DETAILS}/${params.params.slug}`;
     const data = {
       ...values,
-      created_by: localStorage.getItem("user"),
+      created_by: user.userId,
     };
 
     const response = await backendAxiosPut(apiURL, data);

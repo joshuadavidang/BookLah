@@ -1,16 +1,20 @@
 "use client";
 
-import { ProtectComponent } from "@/ProtectComponent";
 import Admin from "@/components/Admin";
 import Concert from "@/components/Concert";
 import { Button } from "@/components/ui/button";
+import { AuthContext } from "@/context";
 import { UserType } from "@/types/concertDetails";
+import { DISCOVER_URL } from "@/utils/constants";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 
 export const Discover = () => {
+  const user = useContext(AuthContext);
+  const { name, userType } = user;
   const path = usePathname();
-  const smoothScroll = path === "/discover";
+  const smoothScroll = path === DISCOVER_URL;
+  const isAdmin = userType === UserType.ADMIN;
 
   useEffect(() => {
     if (smoothScroll) {
@@ -20,9 +24,6 @@ export const Discover = () => {
       });
     }
   });
-
-  const name = localStorage.getItem("name");
-  const isAdmin = localStorage.getItem("userType") === UserType.ADMIN;
 
   return (
     <>
@@ -36,4 +37,4 @@ export const Discover = () => {
   );
 };
 
-export default ProtectComponent(Discover);
+export default Discover;

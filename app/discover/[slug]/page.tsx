@@ -1,6 +1,5 @@
 "use client";
 
-import { ProtectComponent } from "@/ProtectComponent";
 import { backendAxiosPut } from "@/api/helper";
 import BookConcert from "@/components/Concert/BookConcert";
 import LoadingIndicator from "@/components/Loading";
@@ -17,18 +16,20 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useConcertDetail } from "@/hooks/useConcertDetails";
+import { useConcertDetail } from "@/api";
 import { ConcertStatus, UserType } from "@/types/concertDetails";
 import { DISCOVER_URL, FORM_URL } from "@/utils/constants";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "@/context";
 
 const ConcertDetails = (params: any) => {
   const { slug } = params.params;
   const { data, isLoading } = useConcertDetail(slug);
   const router = useRouter();
-  const isAdmin = localStorage.getItem("userType") === UserType.ADMIN;
+  const user = useContext(AuthContext);
+  const isAdmin = user.userType === UserType.ADMIN;
 
   useEffect(() => {
     window.scrollTo({
@@ -163,4 +164,4 @@ const ConcertDetails = (params: any) => {
   );
 };
 
-export default ProtectComponent(ConcertDetails);
+export default ConcertDetails;

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
-import { TopPattern, BottomPattern } from "./components/Pattern";
-import { Toaster } from "./components/ui/sonner";
+import Door from "./door";
 import "./globals.css";
 
 const raleway = Raleway({
@@ -21,12 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={raleway.className}>
-        <TopPattern />
-        <main className="flex flex-col justify-start items-center min-h-fit">
-          {children}
-          <Toaster />
-        </main>
-        <BottomPattern />
+        <Door>{children}</Door>
       </body>
     </html>
   );
