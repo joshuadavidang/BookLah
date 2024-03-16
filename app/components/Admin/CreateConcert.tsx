@@ -1,16 +1,18 @@
 import { backendAxiosPost } from "@/api/helper";
 import SuccessComponent from "@/components/Success";
-import { useEffect, useState } from "react";
+import { AuthContext } from "@/context";
+import { formSchema } from "@/model/formSchema";
+import { ConcertStatus } from "@/types/concertDetails";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import ConcertForm from "./ConcertForm";
-import { formSchema } from "@/model/formSchema";
-import { ConcertStatus } from "@/types/concertDetails";
 
 export default function CreateConcert() {
   const [successState, setSuccessState] = useState(false);
   const [formData, setFormData] = useState<any>();
+  const user = useContext(AuthContext);
 
   useEffect(() => {
     window.scrollTo({
@@ -23,7 +25,7 @@ export default function CreateConcert() {
     const apiURL = `${process.env.NEXT_PUBLIC_ADD_CONCERT}/${uuidv4()}`;
     const data = {
       ...values,
-      created_by: localStorage.getItem("user"),
+      created_by: user.userId,
       concert_status: ConcertStatus.AVAILABLE,
     };
 

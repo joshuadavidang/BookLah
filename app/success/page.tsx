@@ -1,6 +1,5 @@
 "use client";
 
-import { ProtectComponent } from "@/ProtectComponent";
 import LoadingIndicator from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { DISCOVER_URL } from "@/utils/constants";
@@ -24,7 +23,6 @@ const Success = () => {
     );
 
     setCustomerEmail(response.data.email);
-    localStorage.setItem("email", response.data.email);
   };
 
   useEffect(() => {
@@ -52,4 +50,4 @@ const Success = () => {
   );
 };
 
-export default ProtectComponent(Success);
+export default Success;

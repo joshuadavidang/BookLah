@@ -1,11 +1,5 @@
 import { UserType } from "@/types/concertDetails";
 
-interface UserData {
-  user: UserInfo | null;
-  error: Error;
-  isLoading: boolean;
-}
-
 interface UserInfo {
   code: number;
   msg: string;
@@ -16,6 +10,12 @@ interface UserInfo {
       userType: UserType;
     };
   };
+}
+
+interface UserData {
+  name: string;
+  userId: string;
+  userType: UserType;
 }
 
 export type { UserData, UserInfo };

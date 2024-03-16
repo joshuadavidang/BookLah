@@ -1,6 +1,5 @@
 "use client";
 
-import { ProtectComponent } from "@/ProtectComponent";
 import { backendAxiosPut } from "@/api/helper";
 import BookConcert from "@/components/Concert/BookConcert";
 import LoadingIndicator from "@/components/Loading";
@@ -17,18 +16,21 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useConcertDetail } from "@/hooks/useConcertDetails";
+import { useConcertDetail } from "@/api";
 import { ConcertStatus, UserType } from "@/types/concertDetails";
 import { DISCOVER_URL, FORM_URL } from "@/utils/constants";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "@/context";
+import { format } from "date-fns";
 
 const ConcertDetails = (params: any) => {
   const { slug } = params.params;
   const { data, isLoading } = useConcertDetail(slug);
   const router = useRouter();
-  const isAdmin = localStorage.getItem("userType") === UserType.ADMIN;
+  const user = useContext(AuthContext);
+  const isAdmin = user.userType === UserType.ADMIN;
 
   useEffect(() => {
     window.scrollTo({
@@ -52,6 +54,7 @@ const ConcertDetails = (params: any) => {
     performer,
     description,
     time,
+    price,
     title,
     venue,
     capacity,
@@ -113,10 +116,11 @@ const ConcertDetails = (params: any) => {
         <div className="flex flex-col gap-3 px-8 lg:w-1/2 pt-6">
           <h2>{venue}</h2>
           <h2>
-            {date} {time}
+            {format(date, "PPP")}, {time}
           </h2>
           <h2>{title}</h2>
           <h2>{description}</h2>
+          <h2>${price}</h2>
           <div className="flex justify-center pt-6">
             {isAdmin ? (
               <div className="flex gap-4">
@@ -154,7 +158,7 @@ const ConcertDetails = (params: any) => {
                 </AlertDialog>
               </div>
             ) : (
-              <BookConcert />
+              <BookConcert concert_id={concert_id} price={price} />
             )}
           </div>
         </div>
@@ -163,4 +167,4 @@ const ConcertDetails = (params: any) => {
   );
 };
 
-export default ProtectComponent(ConcertDetails);
+export default ConcertDetails;

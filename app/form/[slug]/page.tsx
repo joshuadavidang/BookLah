@@ -1,24 +1,27 @@
 "use client";
 
+import { useConcertDetail } from "@/api";
 import { backendAxiosPut } from "@/api/helper";
 import { DatePicker } from "@/components/DatePicker/index";
 import Input from "@/components/Input";
 import LoadingIndicator from "@/components/Loading";
+import Select from "@/components/Select";
 import TextArea from "@/components/TextArea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useConcertDetail } from "@/hooks/useConcertDetails";
+import { AuthContext } from "@/context";
 import { formSchema } from "@/model/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function EditedConcertForm(params: any) {
   const router = useRouter();
   const { data, isLoading } = useConcertDetail(params.params.slug);
+  const user = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,7 +39,7 @@ export default function EditedConcertForm(params: any) {
 
   useEffect(() => {
     form.setValue("performer", data?.data?.performer);
-    form.setValue("date", new Date());
+    form.setValue("date", data?.data?.date);
     form.setValue("title", data?.data?.title);
     form.setValue("venue", data?.data?.venue);
     form.setValue("time", data?.data?.time);
@@ -51,7 +54,7 @@ export default function EditedConcertForm(params: any) {
     const apiURL = `${process.env.NEXT_PUBLIC_UPDATE_CONCERT_DETAILS}/${params.params.slug}`;
     const data = {
       ...values,
-      created_by: localStorage.getItem("user"),
+      created_by: user.userId,
     };
 
     const response = await backendAxiosPut(apiURL, data);
@@ -93,7 +96,11 @@ export default function EditedConcertForm(params: any) {
               placeholder="e.g Singapore National Stadium"
             />
 
-            <DatePicker formLabel="When is it?" />
+            <DatePicker
+              control={form.control}
+              formLabel="When is it?"
+              nameField="date"
+            />
 
             <Input
               control={form.control}
@@ -103,12 +110,12 @@ export default function EditedConcertForm(params: any) {
               placeholder="e.g The Eras Tour"
             />
 
-            <Input
+            <Select
               control={form.control}
-              type="string"
+              formLabel="What time would it be?"
               nameField="time"
-              title="What time would it be?"
-              placeholder="e.g 8:00 PM"
+              placeholder="Time"
+              values={["7PM", "8PM", "9PM", "10PM"]}
             />
 
             <Input

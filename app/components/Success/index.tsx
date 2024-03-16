@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DISCOVER_URL } from "@/utils/constants";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 
 export default function SuccessComponent({ data }: any) {
@@ -27,19 +28,19 @@ export default function SuccessComponent({ data }: any) {
           <CardDescription>{performer}</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>{date}</p>
+          <p>
+            {format(date, "PPP")}, {time}
+          </p>
           <p>{venue}</p>
-          <p>{time}</p>
         </CardContent>
 
         <CardFooter className="flex justify-end gap-3 pr-12">
-          <Button variant="link">Edit</Button>
           <Button
             variant="colorScheme"
             size="sm"
             onClick={() => router.push(DISCOVER_URL)}
           >
-            View All
+            View All Create Concerts
           </Button>
         </CardFooter>
       </Card>

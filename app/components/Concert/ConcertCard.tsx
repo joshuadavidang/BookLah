@@ -5,13 +5,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { AuthContext } from "@/context";
 import {
   ConcertCardProp,
   ConcertStatus,
   UserType,
 } from "@/types/concertDetails";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 import { Badge } from "../ui/badge";
+import { format } from "date-fns";
 
 export default function ConcertCard({
   concert_id,
@@ -23,8 +26,8 @@ export default function ConcertCard({
   time,
 }: ConcertCardProp) {
   const router = useRouter();
-
-  const isAdmin = localStorage.getItem("userType") === UserType.ADMIN;
+  const user = useContext(AuthContext);
+  const isAdmin = user.userType === UserType.ADMIN;
 
   const navigateDetails = (concert_id: number) => {
     if (concert_status === ConcertStatus.AVAILABLE) {
@@ -82,9 +85,10 @@ export default function ConcertCard({
           concert_status === ConcertStatus.CANCELLED && !isAdmin && "opacity-50"
         } text-2xl"`}
       >
-        <p>{date}</p>
+        <p>
+          {format(date, "PPP")}, {time}
+        </p>
         <p>{venue}</p>
-        <p>{time}</p>
       </CardContent>
     </Card>
   );

@@ -1,15 +1,17 @@
-import { useAdminCreatedConcert } from "@/hooks/useConcertDetails";
+import { useAdminCreatedConcert } from "@/api";
+import { Button } from "@/components/ui/button";
+import { AuthContext } from "@/context";
 import { ConcertCardProp } from "@/types/concertDetails";
+import { FORM_URL } from "@/utils/constants";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 import ConcertCard from "../Concert/ConcertCard";
 import LoadingIndicator from "../Loading";
-import { Button } from "../ui/button";
-import { FORM_URL } from "@/utils/constants";
 
 export default function Admin() {
   const router = useRouter();
-  const userId = localStorage.getItem("user") || "";
-  const { data, isLoading } = useAdminCreatedConcert(userId);
+  const user = useContext(AuthContext);
+  const { data, isLoading } = useAdminCreatedConcert(user.userId);
 
   if (isLoading) return <LoadingIndicator />;
 
