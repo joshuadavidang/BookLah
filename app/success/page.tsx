@@ -11,18 +11,20 @@ const Success = () => {
   const [customerEmail, setCustomerEmail] = useState(null);
   const router = useRouter();
   const searchParam = useSearchParams();
-
   const sessionId = searchParam.get("session_id") || "";
 
   const getCustomerInfo = async () => {
-    const response = await axios.post(
-      String(process.env.NEXT_PUBLIC_GET_CUSTOMER_EMAIL),
-      {
-        sessionId: sessionId,
-      }
-    );
-
-    setCustomerEmail(response.data.email);
+    try {
+      const response = await axios.post(
+        String(process.env.NEXT_PUBLIC_GET_CUSTOMER_EMAIL),
+        {
+          sessionId: sessionId,
+        }
+      );
+      setCustomerEmail(response.data.email);
+    } catch (err) {
+      router.push(DISCOVER_URL);
+    }
   };
 
   useEffect(() => {

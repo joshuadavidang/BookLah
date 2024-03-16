@@ -2,9 +2,10 @@ import { DatePicker } from "@/components/DatePicker/index";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { bookingFormSchema } from "@/model/formSchema";
+import { handleScrollIntoView } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Input from "../Input";
@@ -19,8 +20,6 @@ export default function BookConcert({
   concert_id,
   price = 0,
 }: BookConcertProps) {
-  const [bookingForm, setShowBookingForm] = useState<boolean>(false);
-
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -37,11 +36,10 @@ export default function BookConcert({
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSubmit = async (values: z.infer<typeof bookingFormSchema>) => {
     const data = {
       concert_id: concert_id,
-      category: "hi",
+      category: values.category,
       quantity: values.quantity,
     };
     const response = await axios.post(
@@ -51,26 +49,22 @@ export default function BookConcert({
     window.location.href = response.data.checkout_url;
   };
 
-  const handleBooking = () => {
-    setShowBookingForm(!bookingForm);
-  };
-
   return (
     <div className="flex flex-col justify-center w-full gap-16">
       <Button
         variant="green"
         size="lg"
-        onClick={handleBooking}
+        onClick={() => handleScrollIntoView("booking-form")}
         className="w-fit mx-auto mt-6"
       >
         Book Now
       </Button>
 
-      {bookingForm && (
+      <div id="booking-form">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 bg-slate-100 px-16 py-10 rounded-2xl shadoow-3xl"
+            className="space-y-8 bg-slate-50 px-16 py-10 rounded-2xl shadow-3xl mt-12"
           >
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
               <DatePicker
@@ -104,7 +98,7 @@ export default function BookConcert({
             </div>
           </form>
         </Form>
-      )}
+      </div>
     </div>
   );
 }

@@ -114,13 +114,16 @@ const ConcertDetails = (params: any) => {
 
       <div className="flex justify-center pt-12">
         <div className="flex flex-col gap-3 px-8 lg:w-1/2 pt-6">
-          <h2>{venue}</h2>
-          <h2>
-            {format(date, "PPP")}, {time}
-          </h2>
-          <h2>{title}</h2>
-          <h2>{description}</h2>
-          <h2>${price}</h2>
+          <div className="bg-slate-50 p-12 rounded-2xl shadow-3xl">
+            <h2>{venue}</h2>
+            <h2>
+              {format(date, "PPP")}, {time}
+            </h2>
+            <h2>{title}</h2>
+            <h2>{description}</h2>
+            <h2>${price}</h2>
+          </div>
+
           <div className="flex justify-center pt-6">
             {isAdmin ? (
               <div className="flex gap-4">

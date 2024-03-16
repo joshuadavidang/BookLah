@@ -1,6 +1,6 @@
 "use client";
 
-import { DISCOVER_URL, LANDING_URL } from "@/utils/constants";
+import { LANDING_URL } from "@/utils/constants";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useUserInfo } from "./api";
@@ -33,7 +33,6 @@ export const ProtectComponent = ({ children }: ProtectComponentProps) => {
       };
 
       setProfile(user);
-      router.push(DISCOVER_URL);
       const userInfoAPI = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/${process.env.NEXT_PUBLIC_SAVE_USER_INFORMATION}`;
       backendAxiosPost(userInfoAPI, user);
     }
