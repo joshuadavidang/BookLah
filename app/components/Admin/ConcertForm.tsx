@@ -1,6 +1,6 @@
 import { DatePicker } from "@/components/DatePicker/index";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import { Form, FormLabel } from "@/components/ui/form";
 import { formSchema } from "@/model/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
@@ -8,8 +8,9 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Input from "../Input";
-import TextArea from "../TextArea";
+import { Modal } from "../Modal";
 import Select from "../Select";
+import TextArea from "../TextArea";
 
 interface ConcertFormProps {
   onClick: any;
@@ -45,7 +46,12 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onClick)} className="mt-12 space-y-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+          <FormLabel>
+            <h1 className="text-xl">Upload a Promotional Photo</h1>
+          </FormLabel>
+          <Modal />
+
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 pt-8">
             <Input
               control={form.control}
               type="string"

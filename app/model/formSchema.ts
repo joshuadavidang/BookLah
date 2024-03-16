@@ -5,7 +5,7 @@ export const formSchema = z.object({
   date: z.date(),
   title: z.string().min(2).max(50),
   venue: z.string().min(2).max(50),
-  time: z.string().min(2).max(50),
+  time: z.string().min(2),
   capacity: z.coerce.number().int().min(1),
   price: z.coerce.number().int().min(1),
   description: z.string().min(5).max(1000),
@@ -13,6 +13,7 @@ export const formSchema = z.object({
 
 export const bookingFormSchema = z.object({
   concertDate: z.date(),
-  category: z.string().min(2).max(50),
+  category: z.string().min(1),
   quantity: z.coerce.number().int().min(1),
+  seat: z.string().min(1),
 });

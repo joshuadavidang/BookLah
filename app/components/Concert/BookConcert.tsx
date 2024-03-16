@@ -33,6 +33,7 @@ export default function BookConcert({
       concertDate: new Date(),
       category: "",
       quantity: 0,
+      seat: "",
     },
   });
 
@@ -79,6 +80,14 @@ export default function BookConcert({
                 nameField="category"
                 placeholder="Category"
                 values={["Category 1", "Category 2", "Category 3"]}
+              />
+
+              <Select
+                control={form.control}
+                formLabel="Select Seat"
+                nameField="seat"
+                placeholder="Seat"
+                values={["A1", "A2", "A3"]}
               />
 
               <Input
