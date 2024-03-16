@@ -14,6 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { Badge } from "../ui/badge";
+import { format } from "date-fns";
 
 export default function ConcertCard({
   concert_id,
@@ -84,9 +85,10 @@ export default function ConcertCard({
           concert_status === ConcertStatus.CANCELLED && !isAdmin && "opacity-50"
         } text-2xl"`}
       >
-        <p>{date}</p>
+        <p>
+          {format(date, "PPP")}, {time}
+        </p>
         <p>{venue}</p>
-        <p>{time}</p>
       </CardContent>
     </Card>
   );

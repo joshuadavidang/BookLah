@@ -10,7 +10,15 @@ import { z } from "zod";
 import Input from "../Input";
 import Select from "../Select";
 
-export default function BookConcert() {
+interface BookConcertProps {
+  concert_id: string;
+  price: number;
+}
+
+export default function BookConcert({
+  concert_id,
+  price = 0,
+}: BookConcertProps) {
   const [bookingForm, setShowBookingForm] = useState<boolean>(false);
 
   useEffect(() => {
@@ -23,18 +31,18 @@ export default function BookConcert() {
   const form = useForm<z.infer<typeof bookingFormSchema>>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
-      // date: new Date(),
-      // category: "",
-      capacity: 0,
+      concertDate: new Date(),
+      category: "",
+      quantity: 0,
     },
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSubmit = async (values: z.infer<typeof bookingFormSchema>) => {
     const data = {
-      concert_id: "a",
+      concert_id: concert_id,
       category: "hi",
-      quantity: 1,
+      quantity: values.quantity,
     };
     const response = await axios.post(
       String(process.env.NEXT_PUBLIC_PROCESS_PAYMENT),
@@ -65,19 +73,31 @@ export default function BookConcert() {
             className="space-y-8 bg-slate-100 px-16 py-10 rounded-2xl shadoow-3xl"
           >
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-              <DatePicker formLabel="Select date" />
-              <Select formLabel="Select Category" />
+              <DatePicker
+                control={form.control}
+                formLabel="Select date"
+                nameField="concertDate"
+              />
+
+              <Select
+                control={form.control}
+                formLabel="Select Category"
+                nameField="category"
+                placeholder="Category"
+                values={["Category 1", "Category 2", "Category 3"]}
+              />
+
               <Input
                 control={form.control}
                 type="number"
-                nameField="capacity"
+                nameField="quantity"
                 title="No. of tickets"
                 placeholder="e.g 5"
               />
             </div>
 
             <div className="flex flex-col pt-4 items-end gap-5">
-              <h1>Total SGD $0</h1>
+              <h1>Total SGD ${price}</h1>
               <Button variant="colorScheme" size="lg" type="submit">
                 Make Payment
               </Button>

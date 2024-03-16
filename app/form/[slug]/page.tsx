@@ -5,6 +5,7 @@ import { backendAxiosPut } from "@/api/helper";
 import { DatePicker } from "@/components/DatePicker/index";
 import Input from "@/components/Input";
 import LoadingIndicator from "@/components/Loading";
+import Select from "@/components/Select";
 import TextArea from "@/components/TextArea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -38,7 +39,7 @@ export default function EditedConcertForm(params: any) {
 
   useEffect(() => {
     form.setValue("performer", data?.data?.performer);
-    form.setValue("date", new Date());
+    form.setValue("date", data?.data?.date);
     form.setValue("title", data?.data?.title);
     form.setValue("venue", data?.data?.venue);
     form.setValue("time", data?.data?.time);
@@ -95,7 +96,11 @@ export default function EditedConcertForm(params: any) {
               placeholder="e.g Singapore National Stadium"
             />
 
-            <DatePicker formLabel="When is it?" />
+            <DatePicker
+              control={form.control}
+              formLabel="When is it?"
+              nameField="date"
+            />
 
             <Input
               control={form.control}
@@ -105,12 +110,12 @@ export default function EditedConcertForm(params: any) {
               placeholder="e.g The Eras Tour"
             />
 
-            <Input
+            <Select
               control={form.control}
-              type="string"
+              formLabel="What time would it be?"
               nameField="time"
-              title="What time would it be?"
-              placeholder="e.g 8:00 PM"
+              placeholder="Time"
+              values={["7PM", "8PM", "9PM", "10PM"]}
             />
 
             <Input

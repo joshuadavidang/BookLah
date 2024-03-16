@@ -12,7 +12,7 @@ export const formSchema = z.object({
 });
 
 export const bookingFormSchema = z.object({
-  // date: z.date(),
-  // category: z.string().min(2).max(50),
-  capacity: z.coerce.number().int().min(1),
+  concertDate: z.date(),
+  category: z.string().min(2).max(50),
+  quantity: z.coerce.number().int().min(1),
 });

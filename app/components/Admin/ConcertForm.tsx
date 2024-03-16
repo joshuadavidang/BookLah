@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Input from "../Input";
 import TextArea from "../TextArea";
+import Select from "../Select";
 
 interface ConcertFormProps {
   onClick: any;
@@ -61,8 +62,11 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
               placeholder="e.g Singapore National Stadium"
             />
 
-            <DatePicker formLabel="When is it?" />
-
+            <DatePicker
+              control={form.control}
+              formLabel="When is it?"
+              nameField="date"
+            />
             <Input
               control={form.control}
               type="string"
@@ -71,12 +75,12 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
               placeholder="e.g The Eras Tour"
             />
 
-            <Input
+            <Select
               control={form.control}
-              type="string"
+              formLabel="What time would it be?"
               nameField="time"
-              title="What time would it be?"
-              placeholder="e.g 8:00 PM"
+              placeholder="Time"
+              values={["7PM", "8PM", "9PM", "10PM"]}
             />
 
             <Input

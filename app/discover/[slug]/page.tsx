@@ -23,6 +23,7 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "@/context";
+import { format } from "date-fns";
 
 const ConcertDetails = (params: any) => {
   const { slug } = params.params;
@@ -53,6 +54,7 @@ const ConcertDetails = (params: any) => {
     performer,
     description,
     time,
+    price,
     title,
     venue,
     capacity,
@@ -114,10 +116,11 @@ const ConcertDetails = (params: any) => {
         <div className="flex flex-col gap-3 px-8 lg:w-1/2 pt-6">
           <h2>{venue}</h2>
           <h2>
-            {date} {time}
+            {format(date, "PPP")}, {time}
           </h2>
           <h2>{title}</h2>
           <h2>{description}</h2>
+          <h2>${price}</h2>
           <div className="flex justify-center pt-6">
             {isAdmin ? (
               <div className="flex gap-4">
@@ -155,7 +158,7 @@ const ConcertDetails = (params: any) => {
                 </AlertDialog>
               </div>
             ) : (
-              <BookConcert />
+              <BookConcert concert_id={concert_id} price={price} />
             )}
           </div>
         </div>
