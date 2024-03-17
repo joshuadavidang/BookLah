@@ -5,7 +5,7 @@ import { bookingFormSchema } from "@/model/formSchema";
 import { handleScrollIntoView } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Input from "../Input";
@@ -26,7 +26,7 @@ export default function BookConcert({
       behavior: "smooth",
     });
   }, []);
-
+  const [totalPrice, setTotalPrice] = useState(0);
   const form = useForm<z.infer<typeof bookingFormSchema>>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
@@ -36,6 +36,11 @@ export default function BookConcert({
       seat: "",
     },
   });
+
+  const handleChange = (e: any) => {
+    const quantity = e.target.value;
+    setTotalPrice(quantity * price);
+  };
 
   const onSubmit = async (values: z.infer<typeof bookingFormSchema>) => {
     const data = {
@@ -96,11 +101,12 @@ export default function BookConcert({
                 nameField="quantity"
                 title="No. of tickets"
                 placeholder="e.g 5"
+                handleChange={handleChange}
               />
             </div>
 
             <div className="flex flex-col pt-4 items-end gap-5">
-              <h1>Total SGD ${price}</h1>
+              <h1>Total SGD ${totalPrice.toFixed(2)}</h1>
               <Button variant="colorScheme" size="lg" type="submit">
                 Make Payment
               </Button>

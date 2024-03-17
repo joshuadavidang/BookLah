@@ -10,6 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         colorScheme: "bg-colorScheme text-white hover:bg-opacity-90",
+        complementary: "bg-complementary text-white hover:bg-opacity-90",
         primary: "bg-blue-500 text-white hover:bg-blue-400",
         secondary: "bg-red-600 text-white hover:bg-red-500",
         dark: "bg-primary text-primary-foreground hover:bg-primary/90",
