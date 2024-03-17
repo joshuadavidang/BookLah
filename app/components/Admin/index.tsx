@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context";
 import { ConcertCardProp } from "@/types/concertDetails";
 import { FORM_URL } from "@/utils/constants";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
+import CTA from "~/cta.svg";
 import ConcertCard from "../Concert/ConcertCard";
 import LoadingIndicator from "../Loading";
 
@@ -16,14 +18,14 @@ export default function Admin() {
   if (isLoading) return <LoadingIndicator />;
 
   return (
-    <div className="w-screen relative lg:-top-20">
-      <div className="flex flex-col justify-center text-center gap-2 ">
-        <h1 className="text-2xl mb-4">Start Creating...</h1>
-        <div>
+    <div className="w-screen relative lg:-top-40">
+      <div className="flex flex-col lg:flex-row justify-center items-center gap-8">
+        <Image src={CTA} alt="hero" width="350" height="300" />
+        <div className="flex flex-col gap-6 lg:w-1/4">
+          <h1 className="text-2xl">List a Concert</h1>
           <Button
-            variant="dark"
+            variant="outline"
             size="lg"
-            className="w-1/3"
             onClick={() => router.push(FORM_URL)}
           >
             Get Started
@@ -32,8 +34,8 @@ export default function Admin() {
       </div>
 
       {data && (
-        <div className="flex flex-col px-12 mt-12 gap-6">
-          <h1 className="text-2xl text-center">Previously Created</h1>
+        <div className="flex flex-col px-12 mt-24 gap-6">
+          <h1 className="text-2xl text-center">Your Created Concert</h1>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
             {data?.data.map(
               ({
