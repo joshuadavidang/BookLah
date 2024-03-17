@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Success = () => {
-  const [customerEmail, setCustomerEmail] = useState(null);
+  const [customerEmail, setCustomerEmail] = useState<string>("");
   const router = useRouter();
   const searchParam = useSearchParams();
   const sessionId = searchParam.get("session_id") || "";

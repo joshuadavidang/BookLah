@@ -10,7 +10,7 @@ import { z } from "zod";
 import ConcertForm from "./ConcertForm";
 
 export default function CreateConcert() {
-  const [successState, setSuccessState] = useState(false);
+  const [successState, setSuccessState] = useState<boolean>(false);
   const [formData, setFormData] = useState<any>();
   const user = useContext(AuthContext);
 
