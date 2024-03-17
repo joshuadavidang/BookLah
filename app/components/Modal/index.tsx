@@ -7,7 +7,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
@@ -17,6 +16,7 @@ import { supabase } from "../../../supabase";
 
 export function Modal() {
   const [file, setFile] = useState();
+  const [modal, setModal] = useState<boolean>(false);
   const [previewFile, setPreviewFile] = useState<any>();
 
   const onFileChange = (e: any) => {
@@ -38,31 +38,67 @@ export function Modal() {
         return;
       }
     }
+
+    setModal(false);
   };
 
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline" size="lg" className="min-w-[250px]">
-          Add Photo
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent className="max-h-[600px] overflow-auto">
-        <AlertDialogHeader className="mx-auto">
-          <AlertDialogTitle>Upload Photo</AlertDialogTitle>
-          <AlertDialogDescription>
-            Click upload when you're done.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <InputFile onChange={onFileChange} />
+  const openModal = (e: any) => {
+    e.preventDefault();
+    setModal(!modal);
+  };
+
+  const renderPreview = () => {
+    return (
+      <>
         {previewFile && (
           <Image src={previewFile} alt="concert" width={500} height={500} />
         )}
-        <AlertDialogFooter className="mt-12 flex gap-4">
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={uploadFile}>Upload</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      </>
+    );
+  };
+
+  return (
+    <>
+      {!file ? (
+        <Button
+          variant="outline"
+          size="lg"
+          onClick={(e) => openModal(e)}
+          className="min-w-[250px]"
+        >
+          Add Photo
+        </Button>
+      ) : (
+        <div className="flex gap-6 items-center">
+          {" "}
+          <Button
+            variant="outline"
+            size="lg"
+            className="min-w-[250px]"
+            onClick={() => setModal(true)}
+          >
+            Photo Uploaded!
+          </Button>
+        </div>
+      )}
+      <AlertDialog open={modal}>
+        <AlertDialogContent className="max-h-[600px] overflow-auto">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Upload Photo</AlertDialogTitle>
+            <AlertDialogDescription>
+              Click upload when you're done.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <InputFile onChange={onFileChange} />
+          {renderPreview()}
+          <AlertDialogFooter className="mt-12 flex gap-4">
+            <AlertDialogCancel onClick={() => setModal(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={uploadFile}>Upload</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
