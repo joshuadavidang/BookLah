@@ -2,7 +2,6 @@ import { DatePicker } from "@/components/DatePicker/index";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { bookingFormSchema } from "@/model/formSchema";
-import { handleScrollIntoView } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -57,20 +56,11 @@ export default function BookConcert({
 
   return (
     <div className="flex flex-col justify-center w-full gap-16">
-      <Button
-        variant="green"
-        size="lg"
-        onClick={() => handleScrollIntoView("booking-form")}
-        className="w-fit mx-auto mt-6"
-      >
-        Book Now
-      </Button>
-
       <div id="booking-form">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 bg-slate-50 px-16 py-10 rounded-2xl shadow-3xl mt-12"
+            className="space-y-8 bg-slate-50 px-16 py-10 rounded-2xl shadow-3xl"
           >
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
               <DatePicker
@@ -106,7 +96,10 @@ export default function BookConcert({
             </div>
 
             <div className="flex flex-col pt-4 items-end gap-5">
-              <h1>Total SGD ${totalPrice.toFixed(2)}</h1>
+              <div className="flex items-center gap-4">
+                <p>Total</p>
+                <h1>S${totalPrice.toFixed(2)}</h1>
+              </div>
               <Button variant="colorScheme" size="lg" type="submit">
                 Make Payment
               </Button>

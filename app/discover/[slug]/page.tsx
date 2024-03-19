@@ -113,8 +113,8 @@ const ConcertDetails = (params: any) => {
       </div>
 
       <div className="flex justify-center pt-12">
-        <div className="flex flex-col gap-3 px-8 lg:w-1/2 pt-6">
-          <div className="bg-slate-50 p-12 rounded-2xl shadow-3xl">
+        <div className="flex flex-col lg:flex-row justify-center gap-8 px-8 pt-6">
+          <div className="bg-slate-50 p-12 rounded-2xl lg:w-1/3 shadow-3xl">
             <h2>{venue}</h2>
             <h2>
               {format(date, "PPP")}, {time}
@@ -124,7 +124,7 @@ const ConcertDetails = (params: any) => {
             <h2>${price}</h2>
           </div>
 
-          <div className="flex justify-center pt-6">
+          <div className="flex items-center justify-center lg:w-1/2">
             {isAdmin ? (
               <div className="flex gap-4">
                 <Button size="lg" variant="outline" onClick={handleEdit}>
