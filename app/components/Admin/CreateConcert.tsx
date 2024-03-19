@@ -22,7 +22,8 @@ export default function CreateConcert() {
   }, [successState]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const apiURL = `${process.env.NEXT_PUBLIC_ADD_CONCERT}/${uuidv4()}`;
+    const concertId = uuidv4();
+    const apiURL = `${process.env.NEXT_PUBLIC_ADD_CONCERT}/${concertId}`;
     const data = {
       ...values,
       created_by: user.userId,
@@ -41,7 +42,7 @@ export default function CreateConcert() {
       name: values.title,
       price: values.price,
     };
-    const stripeAddProductAPI = `${process.env.NEXT_PUBLIC_ADD_PRODUCT_TO_STRIPE}`;
+    const stripeAddProductAPI = `${process.env.NEXT_PUBLIC_ADD_PRODUCT_TO_STRIPE}/${concertId}/category1`;
     await backendAxiosPost(stripeAddProductAPI, stripeProduct);
   };
 
