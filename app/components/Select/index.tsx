@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/select";
 
 interface SelectProps {
+  selectedValue?: string;
   control: any;
   nameField: string;
   placeholder: string;
@@ -16,8 +17,8 @@ interface SelectProps {
 }
 
 export default function Select({
+  selectedValue,
   control,
-
   nameField,
   placeholder,
   formLabel,
@@ -34,7 +35,7 @@ export default function Select({
           </FormLabel>
           <ShadcnSelect
             onValueChange={field.onChange}
-            defaultValue={field.value}
+            defaultValue={selectedValue}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder={placeholder} />
