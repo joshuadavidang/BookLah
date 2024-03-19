@@ -60,12 +60,15 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
               placeholder="e.g Taylor Swift"
             />
 
-            <Input
+            <Select
               control={form.control}
-              type="string"
+              formLabel="Where is it?"
               nameField="venue"
-              title="Where is it?"
-              placeholder="e.g Singapore National Stadium"
+              placeholder="Venue"
+              values={[
+                "Singapore National Stadium",
+                "Singapore Indoor Stadium",
+              ]}
             />
 
             <DatePicker
@@ -73,6 +76,7 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
               formLabel="When is it?"
               nameField="date"
             />
+
             <Input
               control={form.control}
               type="string"

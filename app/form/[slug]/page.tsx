@@ -88,12 +88,16 @@ export default function EditedConcertForm(params: any) {
               placeholder="e.g Taylor Swift"
             />
 
-            <Input
+            <Select
               control={form.control}
-              type="string"
+              formLabel="Where is it?"
               nameField="venue"
-              title="Where is it?"
-              placeholder="e.g Singapore National Stadium"
+              placeholder="Venue"
+              selectedValue={data?.data?.venue}
+              values={[
+                "Singapore National Stadium",
+                "Singapore Indoor Stadium",
+              ]}
             />
 
             <DatePicker
@@ -115,6 +119,7 @@ export default function EditedConcertForm(params: any) {
               formLabel="What time would it be?"
               nameField="time"
               placeholder="Time"
+              selectedValue={data?.data?.time}
               values={["7PM", "8PM", "9PM", "10PM"]}
             />
 
