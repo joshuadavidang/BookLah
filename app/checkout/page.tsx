@@ -12,7 +12,7 @@ interface PaymentProps {
 
 export default function Payment({ cancelPayment }: PaymentProps) {
   const [stripePromise, setStripePromise] = useState<any>(null);
-  const [clientSecret, setClientSecret] = useState("");
+  const [clientSecret, setClientSecret] = useState<string>();
 
   const getPublishableKey = async () => {
     const configAPI = String(process.env.NEXT_PUBLIC_STRIPE_CONFIG);
