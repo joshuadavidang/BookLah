@@ -1,5 +1,6 @@
 "use client";
 
+import { useConcertDetail } from "@/api";
 import { backendAxiosPut } from "@/api/helper";
 import BookConcert from "@/components/Concert/BookConcert";
 import LoadingIndicator from "@/components/Loading";
@@ -16,14 +17,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useConcertDetail } from "@/api";
+import { AuthContext } from "@/context";
 import { ConcertStatus, UserType } from "@/types/concertDetails";
 import { DISCOVER_URL, FORM_URL } from "@/utils/constants";
+import { format } from "date-fns";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
-import { AuthContext } from "@/context";
-import { format } from "date-fns";
 
 const ConcertDetails = (params: any) => {
   const { slug } = params.params;
@@ -90,38 +90,46 @@ const ConcertDetails = (params: any) => {
 
         <h1>{performer}</h1>
         {isAdmin ? (
-          <Badge
-            variant={
-              concert_status === ConcertStatus.AVAILABLE
-                ? "success"
-                : "destructive"
-            }
-          >
-            {concert_status}
-          </Badge>
+          <div className="flex gap-2 items-center">
+            {concert_status === ConcertStatus.AVAILABLE && (
+              <>{capacity} Seats</>
+            )}
+            <Badge
+              variant={
+                concert_status === ConcertStatus.AVAILABLE
+                  ? "success"
+                  : "destructive"
+              }
+            >
+              {concert_status}
+            </Badge>
+          </div>
         ) : (
-          <Badge
-            variant={
-              concert_status === ConcertStatus.AVAILABLE
-                ? "success"
-                : "destructive"
-            }
-          >
-            {capacity} SEATS AVAILABLE
-          </Badge>
+          <div className="flex gap-2 items-center">
+            <Badge
+              variant={
+                concert_status === ConcertStatus.AVAILABLE
+                  ? "success"
+                  : "destructive"
+              }
+            >
+              {capacity}
+            </Badge>
+            Seats Available
+          </div>
         )}
       </div>
 
       <div className="flex justify-center pt-12">
         <div className="flex flex-col lg:flex-row justify-center gap-8 px-8 pt-6">
-          <div className="bg-slate-50 p-12 rounded-2xl lg:w-1/3 shadow-3xl">
-            <h2>{venue}</h2>
-            <h2>
+          <div className="flex flex-col gap-5 bg-slate-50 p-12 rounded-2xl lg:w-1/3 shadow-3xl">
+            <h3 className="font-semibold">{venue}</h3>
+            <h3 className="font-semibold">
               {format(date, "PPP")}, {time}
-            </h2>
-            <h2>{title}</h2>
-            <h2>{description}</h2>
-            <h2>${price}</h2>
+            </h3>
+            <h3 className="font-semibold">{title}</h3>
+            <h3>{description}</h3>
+            <h3>${price}</h3>
           </div>
 
           <div className="flex items-center justify-center lg:w-1/2">

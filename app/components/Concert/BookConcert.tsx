@@ -1,3 +1,4 @@
+import Payment from "@/checkout/page";
 import { DatePicker } from "@/components/DatePicker/index";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -26,6 +27,7 @@ export default function BookConcert({
     });
   }, []);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [showPayment, setShowPayment] = useState<boolean>(false);
   const form = useForm<z.infer<typeof bookingFormSchema>>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
@@ -62,48 +64,59 @@ export default function BookConcert({
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 bg-slate-50 px-16 py-10 rounded-2xl shadow-3xl"
           >
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-              <DatePicker
-                control={form.control}
-                formLabel="Select date"
-                nameField="concertDate"
-              />
+            {showPayment ? (
+              <Payment cancelPayment={() => setShowPayment(false)} />
+            ) : (
+              <>
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+                  <DatePicker
+                    control={form.control}
+                    formLabel="Select date"
+                    nameField="concertDate"
+                  />
 
-              <Select
-                control={form.control}
-                formLabel="Select Category"
-                nameField="category"
-                placeholder="Category"
-                values={["Category 1", "Category 2", "Category 3"]}
-              />
+                  <Select
+                    control={form.control}
+                    formLabel="Select Category"
+                    nameField="category"
+                    placeholder="Category"
+                    values={["Category 1", "Category 2", "Category 3"]}
+                  />
 
-              <Select
-                control={form.control}
-                formLabel="Select Seat"
-                nameField="seat"
-                placeholder="Seat"
-                values={["A1", "A2", "A3"]}
-              />
+                  <Select
+                    control={form.control}
+                    formLabel="Select Seat"
+                    nameField="seat"
+                    placeholder="Seat"
+                    values={["A1", "A2", "A3"]}
+                  />
 
-              <Input
-                control={form.control}
-                type="number"
-                nameField="quantity"
-                title="No. of tickets"
-                placeholder="e.g 5"
-                handleChange={handleChange}
-              />
-            </div>
+                  <Input
+                    control={form.control}
+                    type="number"
+                    nameField="quantity"
+                    title="No. of tickets"
+                    placeholder="e.g 5"
+                    handleChange={handleChange}
+                  />
+                </div>
 
-            <div className="flex flex-col pt-4 items-end gap-5">
-              <div className="flex items-center gap-4">
-                <p>Total</p>
-                <h1>S${totalPrice.toFixed(2)}</h1>
-              </div>
-              <Button variant="colorScheme" size="lg" type="submit">
-                Make Payment
-              </Button>
-            </div>
+                <div className="flex flex-col pt-4 items-end gap-5">
+                  <div className="flex items-center gap-4">
+                    <p>Total</p>
+                    <h1>S${totalPrice.toFixed(2)}</h1>
+                  </div>
+                  <Button
+                    variant="colorScheme"
+                    size="lg"
+                    type="submit"
+                    onClick={() => setShowPayment(true)}
+                  >
+                    Make Payment
+                  </Button>
+                </div>
+              </>
+            )}
           </form>
         </Form>
       </div>
