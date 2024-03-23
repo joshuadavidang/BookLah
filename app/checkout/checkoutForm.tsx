@@ -43,7 +43,7 @@ export default function CheckoutForm({ cancelPayment }: CheckoutFormProps) {
   };
 
   return (
-    <form className="flex flex-col items-center gap-8 mx-auto lg:w-1/2">
+    <form className="flex flex-col items-center gap-8 mx-auto">
       <LinkAuthenticationElement
         onChange={(e: any) => setEmail(e.value.email)}
       />
