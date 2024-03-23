@@ -1,9 +1,9 @@
 "use client";
 
+import { backendAxiosPost } from "@/api/helper";
 import LoadingIndicator from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { DISCOVER_URL } from "@/utils/constants";
-import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -11,17 +11,17 @@ const Success = () => {
   const [customerEmail, setCustomerEmail] = useState<string>("");
   const router = useRouter();
   const searchParam = useSearchParams();
-  const sessionId = searchParam.get("session_id") || "";
+  const clientSecret = searchParam.get("payment_intent") || "";
 
   const getCustomerInfo = async () => {
     try {
-      const response = await axios.post(
-        String(process.env.NEXT_PUBLIC_GET_CUSTOMER_EMAIL),
+      const response = await backendAxiosPost(
+        String(process.env.NEXT_PUBLIC_GET_CUSTOMER_DATA),
         {
-          sessionId: sessionId,
+          client_secret: clientSecret,
         }
       );
-      setCustomerEmail(response.data.email);
+      setCustomerEmail(response.data.receipt_email);
     } catch (err) {
       router.push(DISCOVER_URL);
     }
@@ -29,7 +29,7 @@ const Success = () => {
 
   useEffect(() => {
     getCustomerInfo();
-  });
+  }, []);
 
   if (!customerEmail) {
     return <LoadingIndicator />;
