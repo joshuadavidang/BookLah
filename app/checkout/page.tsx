@@ -1,16 +1,17 @@
 "use client";
 
-import { fetcher } from "@/api/helper";
+import { backendAxiosPost, fetcher } from "@/api/helper";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import CheckoutForm from "./checkoutForm";
 
 interface PaymentProps {
+  totalPrice: number;
   cancelPayment: () => void;
 }
 
-export default function Payment({ cancelPayment }: PaymentProps) {
+export default function Payment({ totalPrice, cancelPayment }: PaymentProps) {
   const [stripePromise, setStripePromise] = useState<any>(null);
   const [clientSecret, setClientSecret] = useState<string>();
 
@@ -24,7 +25,12 @@ export default function Payment({ cancelPayment }: PaymentProps) {
     const PaymentIntentAPI = String(
       process.env.NEXT_PUBLIC_CREATE_PAYMENT_INTENT
     );
-    const { client_secret } = await fetcher(PaymentIntentAPI);
+
+    const data = {
+      price: totalPrice,
+    };
+
+    const { client_secret } = await backendAxiosPost(PaymentIntentAPI, data);
     setClientSecret(client_secret);
   };
 

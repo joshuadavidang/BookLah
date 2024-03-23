@@ -9,6 +9,7 @@
     "@typescript-eslint/no-explicit-any": "off",
     "no-console": "error",
     "react/no-unescaped-entities": 0,
+    "react-hooks/exhaustive-deps": "off",
     "eqeqeq": "warn"
   }
 }

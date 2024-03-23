@@ -65,7 +65,10 @@ export default function BookConcert({
             className="space-y-8 bg-slate-50 px-16 py-10 rounded-2xl shadow-3xl"
           >
             {showPayment ? (
-              <Payment cancelPayment={() => setShowPayment(false)} />
+              <Payment
+                cancelPayment={() => setShowPayment(false)}
+                totalPrice={totalPrice}
+              />
             ) : (
               <>
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
