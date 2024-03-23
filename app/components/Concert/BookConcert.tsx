@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { bookingFormSchema } from "@/model/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,7 +16,7 @@ interface BookConcertProps {
 }
 
 export default function BookConcert({
-  concert_id,
+  // concert_id,
   price = 0,
 }: BookConcertProps) {
   useEffect(() => {
@@ -43,17 +42,8 @@ export default function BookConcert({
     setTotalPrice(quantity * price);
   };
 
-  const onSubmit = async (values: z.infer<typeof bookingFormSchema>) => {
-    const data = {
-      concert_id: concert_id,
-      category: values.category,
-      quantity: values.quantity,
-    };
-    const response = await axios.post(
-      String(process.env.NEXT_PUBLIC_PROCESS_PAYMENT),
-      data
-    );
-    window.location.href = response.data.checkout_url;
+  const onSubmit = async () => {
+    setShowPayment(true);
   };
 
   return (
@@ -109,12 +99,7 @@ export default function BookConcert({
                     <p>Total</p>
                     <h1>S${totalPrice.toFixed(2)}</h1>
                   </div>
-                  <Button
-                    variant="colorScheme"
-                    size="lg"
-                    type="submit"
-                    onClick={() => setShowPayment(true)}
-                  >
+                  <Button variant="colorScheme" size="lg" type="submit">
                     Make Payment
                   </Button>
                 </div>
