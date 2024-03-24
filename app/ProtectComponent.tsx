@@ -42,6 +42,8 @@ export const ProtectComponent = ({ children }: ProtectComponentProps) => {
   if (isLoading) return <LoadingIndicator />;
 
   return (
-    <AuthContext.Provider value={profile}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={profile}>
+      <div className="pb-16">{children}</div>
+    </AuthContext.Provider>
   );
 };

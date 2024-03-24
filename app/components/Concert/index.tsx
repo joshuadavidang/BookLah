@@ -1,32 +1,39 @@
-import { useConcertDetails } from "@/api";
+import { useConcertDetails, useForumDetails } from "@/api";
 import { Button } from "@/components/ui/button";
-import { ConcertCardProp } from "@/types";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ForumCard from "@/forum/ForumCard";
+import Orders from "@/orders";
+import { ConcertCardProp, ForumCardProp } from "@/types";
+import { handleScrollIntoView } from "@/utils";
 import Image from "next/image";
 import { useState } from "react";
 import CTA from "~/cta.svg";
 import ConcertCard from "./ConcertCard";
 import ConcertSearch from "./ConcertSearch";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ForumCard from "@/forum/ForumCard";
-import Orders from "@/orders";
-import { handleScrollIntoView } from "@/utils";
-
 export default function Concert() {
   const { data } = useConcertDetails();
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchPostQuery, setSearchPostQuery] = useState<string>("");
   const filteredConcerts = data?.data?.concerts.filter(
     ({ title }: ConcertCardProp) =>
       title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const result = useForumDetails();
+  const response = result?.data?.data;
+  const filteredPosts = response?.posts?.filter(({ title }: ForumCardProp) =>
+    title.toLowerCase().includes(searchPostQuery.toLowerCase())
+  );
+
   return (
-    <div className="flex flex-col justify-center items-center relative lg:-top-40 gap-12 w-screen">
+    <div className="flex flex-col justify-center items-center relative lg:-top-44 gap-12 w-screen">
       <div className="flex flex-col lg:flex-row gap-8 items-center">
         <Image src={CTA} alt="hero" width="350" height="300" />
         <Button
           variant="outline"
           size="lg"
+          className="px-24"
           onClick={() => handleScrollIntoView("tabs")}
         >
           Get Started
@@ -94,16 +101,16 @@ export default function Concert() {
                 <h1 className="text-2xl">Engage with the community</h1>
                 <ConcertSearch
                   placeholder="Search for a community"
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => setSearchPostQuery(e.target.value)}
                 />
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mt-12">
-                {filteredConcerts?.map(
-                  ({ concert_id, performer, title }: ConcertCardProp) => (
+                {filteredPosts?.map(
+                  ({ post_id, concert_id, title }: ForumCardProp) => (
                     <ForumCard
-                      key={concert_id}
-                      forum_id={concert_id ?? 0}
-                      performer={performer}
+                      key={post_id}
+                      concert_id={concert_id}
+                      post_id={post_id ?? 0}
                       title={title}
                     />
                   )

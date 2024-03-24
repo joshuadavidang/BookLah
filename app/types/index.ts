@@ -23,8 +23,9 @@ interface ConcertCardProp {
 
 interface ForumCardProp {
   id?: number;
-  forum_id: number;
-  performer: string;
+  post_id: string;
+  concert_id: string;
+  user_id?: string;
   title: string;
 }
 

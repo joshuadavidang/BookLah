@@ -27,3 +27,16 @@ export const useAdminCreatedConcert = (userId: string) => {
   const { data, error, isLoading } = useSWR(concertDetailsAPI, fetcher);
   return { data, error, isLoading };
 };
+
+export const useForumDetails = () => {
+  const forumDetailsAPI = String(process.env.NEXT_PUBLIC_GET_FORUMS);
+  const { data, error, isLoading } = useSWR(forumDetailsAPI, fetcher);
+  return { data, error, isLoading };
+};
+
+export const useForumDetail = (post_id: string) => {
+  const forumDetailAPI =
+    process.env.NEXT_PUBLIC_GET_FORUM + `/${post_id}` || "";
+  const { data, error, isLoading } = useSWR(forumDetailAPI, fetcher);
+  return { data, error, isLoading };
+};
