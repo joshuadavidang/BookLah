@@ -58,12 +58,12 @@ export default function CreateConcert() {
   };
 
   return (
-    <>
+    <div className="flex justify-center">
       {successState ? (
         <SuccessComponent data={formData} />
       ) : (
         <ConcertForm onClick={onSubmit} />
       )}
-    </>
+    </div>
   );
 }

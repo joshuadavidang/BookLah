@@ -33,7 +33,7 @@ export default function Concert() {
         <Button
           variant="outline"
           size="lg"
-          className="px-24"
+          className="px-40"
           onClick={() => handleScrollIntoView("tabs")}
         >
           Get Started

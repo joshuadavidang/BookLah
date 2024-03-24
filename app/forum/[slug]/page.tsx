@@ -3,7 +3,6 @@
 import { useForumDetail } from "@/api";
 import LoadingIndicator from "@/components/Loading";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, CornerDownLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -50,13 +49,9 @@ const ForumDetails = (params: any) => {
 
       <div className="flex justify-center">
         <form className="flex flex-col lg:flex-row justify-center lg:w-1/2 relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring">
-          <Label htmlFor="message" className="sr-only">
-            Message
-          </Label>
           <Textarea
-            id="message"
-            placeholder="Type your message here..."
-            className="resize-none border-0 p-3 shadow-none focus-visible:ring-0"
+            placeholder="Add a comment here..."
+            className="min-h-[100px] resize-none border-0 p-3 shadow-none focus-visible:ring-0"
           />
           <div className="flex items-center p-3 pt-4">
             <Button type="submit" variant="dark" size="sm">
