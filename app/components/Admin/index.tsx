@@ -1,7 +1,7 @@
 import { useAdminCreatedConcert } from "@/api";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context";
-import { ConcertCardProp } from "@/types/concertDetails";
+import { ConcertCardProp } from "@/types";
 import { FORM_URL } from "@/utils/constants";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

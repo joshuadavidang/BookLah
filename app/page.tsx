@@ -14,7 +14,7 @@ import Image from "next/image";
 import Flash from "~/flash.png";
 import Hero from "~/cta.svg";
 import Singpass from "~/singpass.svg";
-import { UserType } from "./types/concertDetails";
+import { UserType } from "./types";
 
 export default function Home() {
   const handleSingPassBtn = async (userType: UserType) => {
@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <main className="flex flex-col md:flex-row h-screen w-full pt-24 md:pt-0">
       <div className="w-screen lg:w-2/5 flex flex-col justify-evenly items-center px-12 md:bg-slate-100">
-        <h1 className="text-2xl lg:w-2/3">
+        <h1 className="text-2xl lg:w-2/3 text-colorScheme">
           Your Ultimate Concert Booking Solution
         </h1>
         <Image src={Hero} width={350} height={300} alt="Hero" priority />
@@ -39,7 +39,7 @@ export default function Home() {
             <CardTitle>
               <div className="flex items-center gap-1 pb-3">
                 <Image src={Flash} width={50} alt="flash" />
-                <h1 className="text-2xl">BookLah!</h1>
+                <h1 className="text-2xl text-colorScheme">BookLah!</h1>
               </div>
             </CardTitle>
             <CardDescription>Get Started</CardDescription>

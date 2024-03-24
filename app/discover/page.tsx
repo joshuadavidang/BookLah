@@ -1,13 +1,13 @@
 "use client";
 
-import Admin from "@/components/Admin";
-import Concert from "@/components/Concert";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context";
-import { UserType } from "@/types/concertDetails";
+import { UserType } from "@/types";
 import { DISCOVER_URL } from "@/utils/constants";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect } from "react";
+import Admin from "@/components/Admin";
+import Concert from "@/components/Concert";
 
 export const Discover = () => {
   const user = useContext(AuthContext);

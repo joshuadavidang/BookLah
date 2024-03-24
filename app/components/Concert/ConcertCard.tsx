@@ -6,11 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AuthContext } from "@/context";
-import {
-  ConcertCardProp,
-  ConcertStatus,
-  UserType,
-} from "@/types/concertDetails";
+import { ConcertCardProp, ConcertStatus, UserType } from "@/types";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { Badge } from "../ui/badge";

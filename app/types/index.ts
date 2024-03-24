@@ -21,4 +21,11 @@ interface ConcertCardProp {
   description: string;
 }
 
-export type { ConcertCardProp };
+interface ForumCardProp {
+  id?: number;
+  forum_id: number;
+  performer: string;
+  title: string;
+}
+
+export type { ConcertCardProp, ForumCardProp };

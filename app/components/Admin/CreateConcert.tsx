@@ -2,7 +2,7 @@ import { backendAxiosPost } from "@/api/helper";
 import SuccessComponent from "@/components/Success";
 import { AuthContext } from "@/context";
 import { formSchema } from "@/model/formSchema";
-import { ConcertStatus } from "@/types/concertDetails";
+import { ConcertStatus } from "@/types";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";

@@ -7,7 +7,7 @@ import { useUserInfo } from "./api";
 import { backendAxiosPost } from "./api/helper";
 import LoadingIndicator from "./components/Loading";
 import { AuthContext } from "./context";
-import { UserType } from "./types/concertDetails";
+import { UserType } from "./types";
 import { type UserData } from "./utils/userInfo";
 
 interface ProtectComponentProps {
@@ -24,8 +24,9 @@ export const ProtectComponent = ({ children }: ProtectComponentProps) => {
   });
 
   useEffect(() => {
-    if (data?.code === 401 || error) return redirect(LANDING_URL);
-    else if (data?.code === 200) {
+    if (data?.code === 401 || error) {
+      return redirect(LANDING_URL);
+    } else if (data?.code === 200) {
       const user: UserData = {
         userId: data?.userData?.sub ?? "",
         name: data?.userData?.data["myinfo.name"] ?? "",

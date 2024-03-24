@@ -18,7 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context";
-import { ConcertStatus, UserType } from "@/types/concertDetails";
+import { ConcertStatus, UserType } from "@/types";
 import { DISCOVER_URL, FORM_URL } from "@/utils/constants";
 import { format } from "date-fns";
 import { ArrowLeft } from "lucide-react";
@@ -78,7 +78,7 @@ const ConcertDetails = (params: any) => {
 
   return (
     <div className="relative lg:-top-20 w-screen">
-      <div className="flex justify-evenly">
+      <div className="flex justify-evenly items-center">
         <Button
           variant="outline"
           size="sm"
