@@ -10,18 +10,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ForumHero from "~/forum.png";
 
-export default function ForumCard({
-  forum_id,
-  performer,
-  title,
-}: ForumCardProp) {
+export default function ForumCard({ post_id, title }: ForumCardProp) {
   const router = useRouter();
-  const navigateDetails = (forum_id: number) => {
-    router.push(`${FORUM_URL}/${forum_id}`);
+  const navigateDetails = (post_id: string) => {
+    router.push(`${FORUM_URL}/${post_id}`);
   };
 
   return (
-    <Card className="cursor-pointer" onClick={() => navigateDetails(forum_id)}>
+    <Card className="cursor-pointer" onClick={() => navigateDetails(post_id)}>
       <CardHeader>
         <CardTitle>
           <Image src={ForumHero} alt="forum" width="100" height="100" />
@@ -29,7 +25,7 @@ export default function ForumCard({
             <h1>{title}</h1>
           </div>
         </CardTitle>
-        <CardDescription>{performer}</CardDescription>
+        <CardDescription>{title}</CardDescription>
       </CardHeader>
     </Card>
   );

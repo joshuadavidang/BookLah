@@ -22,7 +22,7 @@ export default function Door({
   return (
     <>
       <TopPattern />
-      <main className="flex flex-col justify-start items-center min-h-fit pb-16">
+      <main className="flex flex-col justify-start items-center min-h-fit">
         {renderChildren()}
         <Toaster />
       </main>
