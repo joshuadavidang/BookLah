@@ -1,4 +1,4 @@
-import { UserType } from "@/types/concertDetails";
+import { UserType } from "@/types";
 
 interface UserInfo {
   code: number;

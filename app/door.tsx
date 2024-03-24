@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { ProtectComponent } from "./ProtectComponent";
-import { BottomPattern, TopPattern } from "./components/Pattern";
+import { TopPattern } from "./components/Pattern";
 import { Toaster } from "./components/ui/sonner";
 import { LANDING_URL } from "./utils/constants";
 
@@ -22,11 +22,10 @@ export default function Door({
   return (
     <>
       <TopPattern />
-      <main className="flex flex-col justify-start items-center min-h-fit">
+      <main className="flex flex-col justify-start items-center min-h-fit pb-16">
         {renderChildren()}
         <Toaster />
       </main>
-      <BottomPattern />
     </>
   );
 }

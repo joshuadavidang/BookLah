@@ -95,7 +95,7 @@ export default function BookConcert({
                 </div>
 
                 <div className="flex flex-col pt-4 items-end gap-5">
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
                     <p>Total</p>
                     <h1>S${totalPrice.toFixed(2)}</h1>
                   </div>
