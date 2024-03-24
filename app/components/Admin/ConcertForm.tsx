@@ -34,7 +34,7 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
   const router = useRouter();
 
   return (
-    <div className="px-6">
+    <div>
       <Button
         variant="outline"
         size="sm"
