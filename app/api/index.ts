@@ -1,6 +1,7 @@
 import { fetcher } from "@/api/helper";
 import { type UserInfo } from "@/utils/userInfo";
 import useSWR from "swr";
+import { revalidateEvents } from "swr/_internal";
 
 export const useUserInfo = () => {
   const userDataAPI = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/${process.env.NEXT_PUBLIC_USER_DATA}`;
