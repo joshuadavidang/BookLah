@@ -40,3 +40,10 @@ export const useForumDetail = (post_id: string) => {
   const { data, error, isLoading } = useSWR(forumDetailAPI, fetcher);
   return { data, error, isLoading };
 };
+
+export const useCommentDetail = (post_id: string) => {
+  const commentDetailAPI =
+    process.env.NEXT_PUBLIC_GET_COMMENT + `/${post_id}` || "";
+  const { data, error, isLoading } = useSWR(commentDetailAPI, fetcher);
+  return { data, error, isLoading };
+};

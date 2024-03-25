@@ -17,3 +17,7 @@ export const bookingFormSchema = z.object({
   quantity: z.coerce.number().int().min(1),
   seat: z.string().min(1),
 });
+
+export const commentSchema = z.object({
+  comment: z.string().min(1),
+});
