@@ -1,6 +1,7 @@
 import { fetcher } from "@/api/helper";
 import { type UserInfo } from "@/utils/userInfo";
 import useSWR from "swr";
+import { revalidateEvents } from "swr/_internal";
 
 export const useUserInfo = () => {
   const userDataAPI = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/${process.env.NEXT_PUBLIC_USER_DATA}`;
@@ -38,5 +39,12 @@ export const useForumDetail = (post_id: string) => {
   const forumDetailAPI =
     process.env.NEXT_PUBLIC_GET_FORUM + `/${post_id}` || "";
   const { data, error, isLoading } = useSWR(forumDetailAPI, fetcher);
+  return { data, error, isLoading };
+};
+
+export const useCommentDetail = (post_id: string) => {
+  const commentDetailAPI =
+    process.env.NEXT_PUBLIC_GET_COMMENT + `/${post_id}` || "";
+  const { data, error, isLoading } = useSWR(commentDetailAPI, fetcher);
   return { data, error, isLoading };
 };
