@@ -44,6 +44,8 @@ export const useForumDetail = (post_id: string) => {
 export const useCommentDetail = (post_id: string) => {
   const commentDetailAPI =
     process.env.NEXT_PUBLIC_GET_COMMENT + `/${post_id}` || "";
-  const { data, error, isLoading } = useSWR(commentDetailAPI, fetcher);
+  const { data, error, isLoading } = useSWR(commentDetailAPI, fetcher, {
+    refreshInterval: 1000,
+  });
   return { data, error, isLoading };
 };
