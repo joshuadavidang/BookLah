@@ -121,8 +121,8 @@ const ConcertDetails = (params: any) => {
       </div>
 
       <div className="flex justify-center pt-12">
-        <div className="flex flex-col lg:flex-row justify-center gap-8 px-8 pt-6">
-          <div className="flex flex-col gap-5 bg-slate-50 p-12 rounded-2xl shadow-3xl">
+        <div className="flex flex-col justify-center gap-8 px-8 pt-6">
+          <div className="flex flex-col gap-5 bg-slate-50 p-12 rounded-2xl shadow-3xl lg:min-w-[1000px]">
             <h3 className="font-semibold">{venue}</h3>
             <h3 className="font-semibold">
               {format(date, "PPP")}, {time}
@@ -132,8 +132,10 @@ const ConcertDetails = (params: any) => {
             <h3>${price}</h3>
           </div>
 
-          <div className="flex items-center justify-center">
-            {isAdmin ? (
+          {!isAdmin && <BookConcert concert_id={concert_id} price={price} />}
+
+          {isAdmin && (
+            <div className="flex items-center justify-center">
               <div className="flex gap-4">
                 <Button size="lg" variant="outline" onClick={handleEdit}>
                   Edit
@@ -168,10 +170,8 @@ const ConcertDetails = (params: any) => {
                   </AlertDialogContent>
                 </AlertDialog>
               </div>
-            ) : (
-              <BookConcert concert_id={concert_id} price={price} />
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
