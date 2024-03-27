@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { AuthContext } from "@/context";
 import { commentSchema } from "@/model/formSchema";
+import { UserType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, CornerDownLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -24,6 +25,7 @@ const ForumDetails = (params: any) => {
   const comments = useCommentDetail(data?.data?.post_id);
   const router = useRouter();
   const user = useContext(AuthContext);
+  const isAdmin = user.userType === UserType.ADMIN;
 
   const form = useForm<z.infer<typeof commentSchema>>({
     resolver: zodResolver(commentSchema),
@@ -76,7 +78,7 @@ const ForumDetails = (params: any) => {
         </Button>
         <h1>{title}'s Community Forum</h1>
         <Button variant="link" className="text-sm">
-          Leave Forum
+          {isAdmin ? "Add Post" : "Leave Forum"}
         </Button>
       </div>
 

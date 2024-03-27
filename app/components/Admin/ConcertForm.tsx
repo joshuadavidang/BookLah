@@ -34,7 +34,7 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
   const router = useRouter();
 
   return (
-    <div>
+    <div className="px-4 lg:px-0">
       <Button
         variant="outline"
         size="sm"
@@ -45,7 +45,10 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
       </Button>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onClick)} className="mt-12 space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onClick)}
+          className="mt-12 space-y-8 lg:min-w-[800px]"
+        >
           <FormLabel>
             <h1 className="text-xl">Upload a Promotional Photo</h1>
           </FormLabel>
