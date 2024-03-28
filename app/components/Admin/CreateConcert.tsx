@@ -44,16 +44,19 @@ export default function CreateConcert() {
     };
     const stripeAddProductAPI = `${process.env.NEXT_PUBLIC_ADD_PRODUCT_TO_STRIPE}/${concertId}/category1`;
     await backendAxiosPost(stripeAddProductAPI, stripeProduct);
-
-    const postId = uuidv4();
+    // const postId = uuidv4();
+    // const createForum = {
+    //   post_id: postId,
+    //   concert_id: concertId,
+    //   user_id: user.userId,
+    //   title: values.title,
+    //   content: `${values.title} Forum`,
+    // };
     const createForum = {
-      post_id: postId,
       concert_id: concertId,
-      user_id: user.userId,
-      title: values.title,
-      content: `${values.title} Forum`,
+      concert_name: `${values.title} Forum`,
     };
-    const createForumAPI = `${process.env.NEXT_PUBLIC_CREATE_FORUM}/${postId}`;
+    const createForumAPI = String(process.env.NEXT_PUBLIC_CREATE_FORUM);
     await backendAxiosPost(createForumAPI, createForum);
   };
 

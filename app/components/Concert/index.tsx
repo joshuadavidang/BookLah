@@ -22,8 +22,8 @@ export default function Concert() {
 
   const result = useForumDetails();
   const response = result?.data?.data;
-  const filteredPosts = response?.posts?.filter(({ title }: ForumCardProp) =>
-    title.toLowerCase().includes(searchPostQuery.toLowerCase())
+  const filteredForums = response?.filter(({ concert_name }: ForumCardProp) =>
+    concert_name.toLowerCase().includes(searchPostQuery.toLowerCase())
   );
 
   return (
@@ -105,13 +105,14 @@ export default function Concert() {
                 />
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mt-12">
-                {filteredPosts?.map(
-                  ({ post_id, concert_id, title }: ForumCardProp) => (
+                {filteredForums?.map(
+                  ({ concert_id, concert_name }: ForumCardProp) => (
                     <ForumCard
-                      key={post_id}
+                      key={concert_name}
                       concert_id={concert_id}
-                      post_id={post_id ?? 0}
-                      title={title}
+                      // concert_id={concert_id}
+                      // post_id={post_id ?? 0}
+                      concert_name={concert_name}
                     />
                   )
                 )}
