@@ -26,7 +26,6 @@ const ForumDetails = (params: any) => {
   const posts = usePostDetails(slug);
 
   const comments = useCommentDetail("a6f8e5b1-31cf-4f87-9a18-4e830e5d9e38");
-  console.log(comments);
   const router = useRouter();
   const user = useContext(AuthContext);
   const isAdmin = user.userType === UserType.ADMIN;
