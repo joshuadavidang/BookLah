@@ -34,10 +34,18 @@ export const useForumDetails = () => {
   return { data, error, isLoading };
 };
 
-export const useForumDetail = (post_id: string) => {
+export const useForumDetail = (concert_id: string) => {
   const forumDetailAPI =
-    process.env.NEXT_PUBLIC_GET_FORUM + `/${post_id}` || "";
+    process.env.NEXT_PUBLIC_GET_FORUM + `/${concert_id}` || "";
   const { data, error, isLoading } = useSWR(forumDetailAPI, fetcher);
+  return { data, error, isLoading };
+};
+
+export const usePostDetails = (concert_id: string) => {
+  const postDetailsAPI = String(
+    process.env.NEXT_PUBLIC_GET_POSTS_BY_CONCERT_ID + `/${concert_id}` || ""
+  );
+  const { data, error, isLoading } = useSWR(postDetailsAPI, fetcher);
   return { data, error, isLoading };
 };
 
