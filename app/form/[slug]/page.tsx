@@ -64,7 +64,7 @@ export default function EditedConcertForm(params: any) {
   };
 
   return (
-    <div className="lg:w-2/3 px-6">
+    <div className="lg:min-w-[800px] px-6">
       <Button
         variant="outline"
         size="sm"
