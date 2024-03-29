@@ -57,3 +57,12 @@ export const useCommentDetail = (post_id: string) => {
   });
   return { data, error, isLoading };
 };
+
+export const useBookings = (user_id: string) => {
+  const bookingsAPI =
+    process.env.NEXT_PUBLIC_GET_BOOKINGS + `/${user_id}` || "";
+  const { data, error, isLoading } = useSWR(bookingsAPI, fetcher, {
+    refreshInterval: 1000,
+  });
+  return { data, error, isLoading };
+};
