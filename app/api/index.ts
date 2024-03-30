@@ -34,9 +34,16 @@ export const useForumDetails = () => {
   return { data, error, isLoading };
 };
 
-export const useForumDetail = (concert_id: string) => {
+export const useForumDetailUserId = (user_id: string) => {
   const forumDetailAPI =
-    process.env.NEXT_PUBLIC_GET_FORUM + `/${concert_id}` || "";
+    process.env.NEXT_PUBLIC_GET_FORUM_BY_USER_ID + `/${user_id}` || "";
+  const { data, error, isLoading } = useSWR(forumDetailAPI, fetcher);
+  return { data, error, isLoading };
+};
+
+export const useForumDetailConcertId = (concert_id: string) => {
+  const forumDetailAPI =
+    process.env.NEXT_PUBLIC_GET_FORUM_BY_CONCERT_ID + `/${concert_id}` || "";
   const { data, error, isLoading } = useSWR(forumDetailAPI, fetcher);
   return { data, error, isLoading };
 };

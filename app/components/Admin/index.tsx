@@ -1,7 +1,8 @@
-import { useAdminCreatedConcert, useForumDetails } from "@/api";
+import { useAdminCreatedConcert, useForumDetailUserId } from "@/api";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthContext } from "@/context";
+import ForumCard from "@/forum/ForumCard";
 import { ConcertCardProp, ForumCardProp } from "@/types";
 import { FORM_URL } from "@/utils/constants";
 import Image from "next/image";
@@ -11,7 +12,6 @@ import CTA from "~/cta.svg";
 import ConcertCard from "../Concert/ConcertCard";
 import ConcertSearch from "../Concert/ConcertSearch";
 import LoadingIndicator from "../Loading";
-import ForumCard from "@/forum/ForumCard";
 
 export default function Admin() {
   const router = useRouter();
@@ -23,10 +23,11 @@ export default function Admin() {
     title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const result = useForumDetails();
+  const result = useForumDetailUserId(user.userId);
   const response = result?.data?.data;
-  const filteredPosts = response?.posts?.filter(({ title }: ForumCardProp) =>
-    title.toLowerCase().includes(searchPostQuery.toLowerCase())
+
+  const filteredForums = response?.filter(({ concert_name }: ForumCardProp) =>
+    concert_name.toLowerCase().includes(searchPostQuery.toLowerCase())
   );
 
   if (isLoading) return <LoadingIndicator />;
@@ -109,13 +110,12 @@ export default function Admin() {
                 />
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mt-12">
-                {filteredPosts?.map(
-                  ({ post_id, concert_id, title }: ForumCardProp) => (
+                {filteredForums?.map(
+                  ({ concert_id, concert_name }: ForumCardProp) => (
                     <ForumCard
-                      key={post_id}
+                      key={concert_id}
                       concert_id={concert_id}
-                      post_id={post_id ?? 0}
-                      title={title}
+                      concert_name={concert_name}
                     />
                   )
                 )}
