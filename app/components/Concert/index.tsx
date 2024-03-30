@@ -6,10 +6,12 @@ import Orders from "@/orders";
 import { ConcertCardProp, ForumCardProp } from "@/types";
 import { handleScrollIntoView } from "@/utils";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CTA from "~/cta.svg";
 import ConcertCard from "./ConcertCard";
 import ConcertSearch from "./ConcertSearch";
+import { backendAxiosPost } from "@/api/helper";
+import { AuthContext } from "@/context";
 
 export default function Concert() {
   const { data } = useConcertDetails();
@@ -19,6 +21,19 @@ export default function Concert() {
     ({ title }: ConcertCardProp) =>
       title.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  const user = useContext(AuthContext);
+
+  const getForums = async () => {
+    const apiURL = String(process.env.NEXT_PUBLIC_GET_FORUM);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const response = await backendAxiosPost(apiURL, {
+      user_id: user.userId,
+    });
+  };
+
+  useEffect(() => {
+    user && getForums();
+  }, [user]);
 
   const result = useForumDetails();
   const response = result?.data?.data;

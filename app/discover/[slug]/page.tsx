@@ -1,7 +1,7 @@
 "use client";
 
 import { useConcertDetail } from "@/api";
-import { backendAxiosPut } from "@/api/helper";
+import { backendAxiosPost, backendAxiosPut } from "@/api/helper";
 import BookConcert from "@/components/Concert/BookConcert";
 import LoadingIndicator from "@/components/Loading";
 import {
@@ -60,16 +60,26 @@ const ConcertDetails = (params: any) => {
     capacity,
   } = concertDetails;
 
-  const handleUpdate = async (id: string) => {
-    const apiURL = `${process.env.NEXT_PUBLIC_UPDATE_CONCERT_STATUS}/${id}`;
-    const response = await backendAxiosPut(apiURL, {
-      concertStatus:
-        concert_status === ConcertStatus.AVAILABLE
-          ? ConcertStatus.CANCELLED
-          : ConcertStatus.AVAILABLE,
-    });
-    if (response.code === 200) {
-      router.push(DISCOVER_URL);
+  const handleUpdate = async () => {
+    if (ConcertStatus.CANCELLED === concert_status) {
+      const apiURL = `${process.env.NEXT_PUBLIC_UPDATE_CONCERT_STATUS}/${concert_id}`;
+      const response = await backendAxiosPut(apiURL, {
+        concertStatus:
+          concert_status === ConcertStatus.AVAILABLE
+            ? ConcertStatus.CANCELLED
+            : ConcertStatus.AVAILABLE,
+      });
+      if (response.code === 200) {
+        router.push(DISCOVER_URL);
+      }
+    } else {
+      const apiURL = String(process.env.NEXT_PUBLIC_CANCEL_CONCERT);
+      const response = await backendAxiosPost(apiURL, {
+        concert_id,
+      });
+      if (response.code === 200) {
+        router.push(DISCOVER_URL);
+      }
     }
   };
 
@@ -122,7 +132,7 @@ const ConcertDetails = (params: any) => {
 
       <div className="flex justify-center pt-12">
         <div className="flex flex-col justify-center gap-8 px-8 pt-6">
-          <div className="flex flex-col gap-5 bg-slate-50 p-12 rounded-2xl shadow-3xl lg:min-w-[1000px]">
+          <div className="flex flex-col gap-5 bg-green-100 p-12 rounded-2xl shadow-3xl lg:max-w-[1000px]">
             <h3 className="font-semibold">{venue}</h3>
             <h3 className="font-semibold">
               {format(date, "PPP")}, {time}
@@ -161,9 +171,7 @@ const ConcertDetails = (params: any) => {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={() => handleUpdate(concert_id)}
-                      >
+                      <AlertDialogAction onClick={handleUpdate}>
                         Continue
                       </AlertDialogAction>
                     </AlertDialogFooter>

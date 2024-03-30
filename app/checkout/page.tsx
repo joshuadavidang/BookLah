@@ -41,6 +41,9 @@ export default function Payment({ totalPrice, cancelPayment }: PaymentProps) {
 
   return (
     <>
+      <h1 className="flex justify-center">
+        Almost there... Enter your payment details.
+      </h1>
       {stripePromise && clientSecret && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm cancelPayment={cancelPayment} />
