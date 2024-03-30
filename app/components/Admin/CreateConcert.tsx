@@ -55,6 +55,7 @@ export default function CreateConcert() {
     const createForum = {
       concert_id: concertId,
       concert_name: `${values.title} Forum`,
+      user_id: user.userId,
     };
     const createForumAPI = String(process.env.NEXT_PUBLIC_CREATE_FORUM);
     await backendAxiosPost(createForumAPI, createForum);
