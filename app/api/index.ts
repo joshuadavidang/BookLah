@@ -34,9 +34,16 @@ export const useForumDetails = () => {
   return { data, error, isLoading };
 };
 
-export const useForumDetail = (concert_id: string) => {
+export const useForumDetailUserId = (user_id: string) => {
   const forumDetailAPI =
-    process.env.NEXT_PUBLIC_GET_FORUM + `/${concert_id}` || "";
+    process.env.NEXT_PUBLIC_GET_FORUM_BY_USER_ID + `/${user_id}` || "";
+  const { data, error, isLoading } = useSWR(forumDetailAPI, fetcher);
+  return { data, error, isLoading };
+};
+
+export const useForumDetailConcertId = (concert_id: string) => {
+  const forumDetailAPI =
+    process.env.NEXT_PUBLIC_GET_FORUM_BY_CONCERT_ID + `/${concert_id}` || "";
   const { data, error, isLoading } = useSWR(forumDetailAPI, fetcher);
   return { data, error, isLoading };
 };
@@ -53,6 +60,15 @@ export const useCommentDetail = (post_id: string) => {
   const commentDetailAPI =
     process.env.NEXT_PUBLIC_GET_COMMENT + `/${post_id}` || "";
   const { data, error, isLoading } = useSWR(commentDetailAPI, fetcher, {
+    refreshInterval: 1000,
+  });
+  return { data, error, isLoading };
+};
+
+export const useBookings = (user_id: string) => {
+  const bookingsAPI =
+    process.env.NEXT_PUBLIC_GET_BOOKINGS + `/${user_id}` || "";
+  const { data, error, isLoading } = useSWR(bookingsAPI, fetcher, {
     refreshInterval: 1000,
   });
   return { data, error, isLoading };
