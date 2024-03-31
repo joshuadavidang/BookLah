@@ -28,19 +28,6 @@ export const useAdminCreatedConcert = (userId: string) => {
   return { data, error, isLoading };
 };
 
-export const useForumDetails = () => {
-  const forumDetailsAPI = String(process.env.NEXT_PUBLIC_GET_FORUMS);
-  const { data, error, isLoading } = useSWR(forumDetailsAPI, fetcher);
-  return { data, error, isLoading };
-};
-
-export const useForumDetailUserId = (user_id: string) => {
-  const forumDetailAPI =
-    process.env.NEXT_PUBLIC_GET_FORUM_BY_USER_ID + `/${user_id}` || "";
-  const { data, error, isLoading } = useSWR(forumDetailAPI, fetcher);
-  return { data, error, isLoading };
-};
-
 export const useForumDetailConcertId = (concert_id: string) => {
   const forumDetailAPI =
     process.env.NEXT_PUBLIC_GET_FORUM_BY_CONCERT_ID + `/${concert_id}` || "";
@@ -52,7 +39,9 @@ export const usePostDetails = (concert_id: string) => {
   const postDetailsAPI = String(
     process.env.NEXT_PUBLIC_GET_POSTS_BY_CONCERT_ID + `/${concert_id}` || ""
   );
-  const { data, error, isLoading } = useSWR(postDetailsAPI, fetcher);
+  const { data, error, isLoading } = useSWR(postDetailsAPI, fetcher, {
+    refreshInterval: 1000,
+  });
   return { data, error, isLoading };
 };
 

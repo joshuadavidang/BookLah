@@ -21,3 +21,7 @@ export const bookingFormSchema = z.object({
 export const commentSchema = z.object({
   comment: z.string().min(1, { message: "Minimum 10 characters" }),
 });
+
+export const PostSchema = z.object({
+  content: z.string().min(1, { message: "Minimum 10 characters" }),
+});

@@ -1,4 +1,4 @@
-import { useConcertDetails, useForumDetails } from "@/api";
+import { useConcertDetails } from "@/api";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ForumCard from "@/forum/ForumCard";
@@ -15,6 +15,7 @@ import { AuthContext } from "@/context";
 
 export default function Concert() {
   const { data } = useConcertDetails();
+  const [forum, setForum] = useState<any>();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchPostQuery, setSearchPostQuery] = useState<string>("");
   const filteredConcerts = data?.data?.concerts.filter(
@@ -25,19 +26,19 @@ export default function Concert() {
 
   const getForums = async () => {
     const apiURL = String(process.env.NEXT_PUBLIC_GET_FORUM);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const response = await backendAxiosPost(apiURL, {
       user_id: user.userId,
     });
+    setForum(response?.data);
   };
 
   useEffect(() => {
-    user && getForums();
+    if (user.userId) {
+      getForums();
+    }
   }, [user]);
 
-  const result = useForumDetails();
-  const response = result?.data?.data;
-  const filteredForums = response?.filter(({ concert_name }: ForumCardProp) =>
+  const filteredForums = forum?.filter(({ concert_name }: ForumCardProp) =>
     concert_name.toLowerCase().includes(searchPostQuery.toLowerCase())
   );
 
