@@ -1,5 +1,4 @@
-import { useAdminCreatedConcert } from "@/api";
-import { backendAxiosPost } from "@/api/helper";
+import { useAdminCreatedConcert, useForumDetailUserId } from "@/api";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthContext } from "@/context";
@@ -8,7 +7,7 @@ import { ConcertCardProp, ForumCardProp } from "@/types";
 import { FORM_URL } from "@/utils/constants";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import CTA from "~/cta.svg";
 import ConcertCard from "../Concert/ConcertCard";
 import ConcertSearch from "../Concert/ConcertSearch";
@@ -17,7 +16,6 @@ import LoadingIndicator from "../Loading";
 export default function Admin() {
   const router = useRouter();
   const user = useContext(AuthContext);
-  const [forum, setForum] = useState<any>();
   const { data, isLoading } = useAdminCreatedConcert(user.userId);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchPostQuery, setSearchPostQuery] = useState<string>("");
@@ -25,21 +23,10 @@ export default function Admin() {
     title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const getForums = async () => {
-    const apiURL = String(process.env.NEXT_PUBLIC_GET_FORUM);
-    const response = await backendAxiosPost(apiURL, {
-      user_id: user.userId,
-    });
-    setForum(response?.data);
-  };
+  const result = useForumDetailUserId(user.userId);
+  const response = result?.data?.data;
 
-  useEffect(() => {
-    if (user.userId) {
-      getForums();
-    }
-  }, [user]);
-
-  const filteredForums = forum?.filter(({ concert_name }: ForumCardProp) =>
+  const filteredForums = response?.filter(({ concert_name }: ForumCardProp) =>
     concert_name.toLowerCase().includes(searchPostQuery.toLowerCase())
   );
 

@@ -28,6 +28,13 @@ export const useAdminCreatedConcert = (userId: string) => {
   return { data, error, isLoading };
 };
 
+export const useForumDetailUserId = (user_id: string) => {
+  const forumDetailAPI =
+    process.env.NEXT_PUBLIC_GET_FORUM_BY_USER_ID + `/${user_id}` || "";
+  const { data, error, isLoading } = useSWR(forumDetailAPI, fetcher);
+  return { data, error, isLoading };
+};
+
 export const useForumDetailConcertId = (concert_id: string) => {
   const forumDetailAPI =
     process.env.NEXT_PUBLIC_GET_FORUM_BY_CONCERT_ID + `/${concert_id}` || "";
@@ -58,7 +65,7 @@ export const useBookings = (user_id: string) => {
   const bookingsAPI =
     process.env.NEXT_PUBLIC_GET_BOOKINGS + `/${user_id}` || "";
   const { data, error, isLoading } = useSWR(bookingsAPI, fetcher, {
-    refreshInterval: 1000,
+    revalidateOnMount: true,
   });
   return { data, error, isLoading };
 };

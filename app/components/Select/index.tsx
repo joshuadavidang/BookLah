@@ -1,4 +1,9 @@
-import { FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   SelectContent,
   SelectItem,
@@ -48,6 +53,7 @@ export default function Select({
               ))}
             </SelectContent>
           </ShadcnSelect>
+          <FormMessage />
         </FormItem>
       )}
     />
