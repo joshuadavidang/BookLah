@@ -3,5 +3,13 @@ const LANDING_URL = "/";
 const DISCOVER_URL = "/discover";
 const FORM_URL = "/form";
 const FORUM_URL = "/forum";
+const SUCCESS_URL = "/success";
 
-export { BACK_END_API_URL, DISCOVER_URL, FORM_URL, FORUM_URL, LANDING_URL };
+export {
+  BACK_END_API_URL,
+  DISCOVER_URL,
+  FORM_URL,
+  FORUM_URL,
+  LANDING_URL,
+  SUCCESS_URL,
+};

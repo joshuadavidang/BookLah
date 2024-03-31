@@ -12,16 +12,15 @@ export const formSchema = z.object({
 });
 
 export const bookingFormSchema = z.object({
-  concertDate: z.date(),
-  category: z.string().min(1),
-  quantity: z.coerce.number().int().min(1),
-  seat: z.string().min(1),
+  category: z.string().min(1, { message: "Required field" }),
+  seat: z.string().min(1, { message: "Required field" }),
+  quantity: z.coerce.number().int().min(1, { message: "Required field" }),
 });
 
 export const commentSchema = z.object({
-  comment: z.string().min(1, { message: "Minimum 10 characters" }),
+  comment: z.string().min(1, { message: "Required field" }),
 });
 
 export const PostSchema = z.object({
-  content: z.string().min(1, { message: "Minimum 10 characters" }),
+  content: z.string().min(1, { message: "Required field" }),
 });

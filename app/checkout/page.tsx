@@ -9,9 +9,14 @@ import CheckoutForm from "./checkoutForm";
 interface PaymentProps {
   totalPrice: number;
   cancelPayment: () => void;
+  bookingForm: any;
 }
 
-export default function Payment({ totalPrice, cancelPayment }: PaymentProps) {
+export default function Payment({
+  totalPrice,
+  cancelPayment,
+  bookingForm,
+}: PaymentProps) {
   const [stripePromise, setStripePromise] = useState<any>(null);
   const [clientSecret, setClientSecret] = useState<string>();
 
@@ -46,7 +51,11 @@ export default function Payment({ totalPrice, cancelPayment }: PaymentProps) {
       </h1>
       {stripePromise && clientSecret && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <CheckoutForm cancelPayment={cancelPayment} />
+          <CheckoutForm
+            cancelPayment={cancelPayment}
+            bookingForm={bookingForm}
+            totalPrice={totalPrice}
+          />
         </Elements>
       )}
     </>

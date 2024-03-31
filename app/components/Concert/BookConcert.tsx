@@ -1,10 +1,10 @@
 import Payment from "@/checkout/page";
-import { DatePicker } from "@/components/DatePicker/index";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { AuthContext } from "@/context";
 import { bookingFormSchema } from "@/model/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Input from "../Input";
@@ -16,7 +16,7 @@ interface BookConcertProps {
 }
 
 export default function BookConcert({
-  // concert_id,
+  concert_id,
   price = 0,
 }: BookConcertProps) {
   useEffect(() => {
@@ -27,10 +27,17 @@ export default function BookConcert({
   }, []);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showPayment, setShowPayment] = useState<boolean>(false);
+  const user = useContext(AuthContext);
+  const [bookingForm, setBookingForm] = useState({
+    user_id: "",
+    concert_id: "",
+    cat_no: "",
+    seat_no: "",
+    quantity: 0,
+  });
   const form = useForm<z.infer<typeof bookingFormSchema>>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
-      concertDate: new Date(),
       category: "",
       quantity: 0,
       seat: "",
@@ -42,7 +49,15 @@ export default function BookConcert({
     setTotalPrice(quantity * price);
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (values: z.infer<typeof bookingFormSchema>) => {
+    const { seat, quantity, category } = values;
+    setBookingForm({
+      user_id: user.userId,
+      concert_id: concert_id,
+      cat_no: category,
+      seat_no: seat,
+      quantity: quantity,
+    });
     setShowPayment(true);
   };
 
@@ -56,12 +71,6 @@ export default function BookConcert({
               className="space-y-8 bg-slate-50 px-16 py-10 rounded-2xl shadow-3xl"
             >
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-                <DatePicker
-                  control={form.control}
-                  formLabel="Select date"
-                  nameField="concertDate"
-                />
-
                 <Select
                   control={form.control}
                   formLabel="Select Category"
@@ -109,6 +118,7 @@ export default function BookConcert({
           <Payment
             cancelPayment={() => setShowPayment(false)}
             totalPrice={totalPrice}
+            bookingForm={bookingForm}
           />
         </>
       )}

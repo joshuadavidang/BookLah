@@ -87,7 +87,6 @@ const ForumDetails = (params: any) => {
           <ArrowLeft size="18" /> Back
         </Button>
         <h1>{concert_name}'s Community Forum</h1>
-
         {isAdmin ? <Dialog concertId={slug} /> : "Leave Forum"}
       </div>
 
