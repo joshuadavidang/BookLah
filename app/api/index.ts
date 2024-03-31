@@ -47,7 +47,7 @@ export const usePostDetails = (concert_id: string) => {
     process.env.NEXT_PUBLIC_GET_POSTS_BY_CONCERT_ID + `/${concert_id}` || ""
   );
   const { data, error, isLoading } = useSWR(postDetailsAPI, fetcher, {
-    refreshInterval: 1000,
+    revalidateOnMount: true,
   });
   return { data, error, isLoading };
 };
@@ -56,7 +56,7 @@ export const useCommentDetail = (post_id: string) => {
   const commentDetailAPI =
     process.env.NEXT_PUBLIC_GET_COMMENT + `/${post_id}` || "";
   const { data, error, isLoading } = useSWR(commentDetailAPI, fetcher, {
-    refreshInterval: 1000,
+    revalidateOnMount: true,
   });
   return { data, error, isLoading };
 };
@@ -65,7 +65,7 @@ export const useBookings = (user_id: string) => {
   const bookingsAPI =
     process.env.NEXT_PUBLIC_GET_BOOKINGS + `/${user_id}` || "";
   const { data, error, isLoading } = useSWR(bookingsAPI, fetcher, {
-    revalidateOnMount: true,
+    revalidateIfStale: true,
   });
   return { data, error, isLoading };
 };

@@ -14,9 +14,10 @@ import TextArea from "../TextArea";
 
 interface ConcertFormProps {
   onClick: any;
+  create: boolean;
 }
 
-export default function ConcertForm({ onClick }: ConcertFormProps) {
+export default function ConcertForm({ create, onClick }: ConcertFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -123,8 +124,13 @@ export default function ConcertForm({ onClick }: ConcertFormProps) {
           </div>
 
           <div className="flex justify-center pt-12">
-            <Button variant="colorScheme" size="lg" type="submit">
-              Create Concert
+            <Button
+              variant="colorScheme"
+              size="lg"
+              type="submit"
+              disabled={create}
+            >
+              {create ? "Creating..." : "Create Concert"}
             </Button>
           </div>
         </form>
