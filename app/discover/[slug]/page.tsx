@@ -24,6 +24,7 @@ import { format } from "date-fns";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
+import { toast } from "sonner";
 
 const ConcertDetails = (params: any) => {
   const { slug } = params.params;
@@ -78,6 +79,7 @@ const ConcertDetails = (params: any) => {
         concert_id,
       });
       if (response.code === 200) {
+        toast.success("Concert has been cancelled");
         router.push(DISCOVER_URL);
       }
     }

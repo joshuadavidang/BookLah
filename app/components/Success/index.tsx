@@ -12,7 +12,8 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 
 export default function SuccessComponent({ data }: any) {
-  const { performer, date, time, title, venue } = data;
+  const { performer, date, time, title, venue } = data?.concert_result?.data;
+
   const router = useRouter();
 
   return (
@@ -40,7 +41,7 @@ export default function SuccessComponent({ data }: any) {
             size="sm"
             onClick={() => router.push(DISCOVER_URL)}
           >
-            View All Create Concerts
+            View All Created Concerts
           </Button>
         </CardFooter>
       </Card>

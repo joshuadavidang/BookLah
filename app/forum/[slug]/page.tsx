@@ -30,7 +30,7 @@ const ForumDetails = (params: any) => {
 
   const posts = usePostDetails(slug);
 
-  const comments = useCommentDetail("319bfba6-2070-4434-9c3e-2d3704590f77"); // postid
+  const comments = useCommentDetail("649511dd-49b5-46eb-9ce0-d1dd199b1306"); // postid
 
   const router = useRouter();
   const user = useContext(AuthContext);

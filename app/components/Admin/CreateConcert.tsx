@@ -13,6 +13,7 @@ export default function CreateConcert() {
   const [successState, setSuccessState] = useState<boolean>(false);
   const [formData, setFormData] = useState<any>();
   const user = useContext(AuthContext);
+  const [create, setCreate] = useState<boolean>(false);
 
   useEffect(() => {
     window.scrollTo({
@@ -22,10 +23,12 @@ export default function CreateConcert() {
   }, [successState]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setCreate(true);
     const concertId = uuidv4();
-    const apiURL = `${process.env.NEXT_PUBLIC_ADD_CONCERT}/${concertId}`;
+    const apiURL = String(process.env.NEXT_PUBLIC_CREATE_CONCERT);
     const data = {
       ...values,
+      concert_id: concertId,
       created_by: user.userId,
       concert_status: ConcertStatus.AVAILABLE,
     };
@@ -34,31 +37,10 @@ export default function CreateConcert() {
 
     if (response.code === 201) {
       setSuccessState(true);
+      setCreate(false);
       setFormData(response.data);
       toast("Concert has been created.");
     }
-
-    const stripeProduct = {
-      name: values.title,
-      price: values.price,
-    };
-    const stripeAddProductAPI = `${process.env.NEXT_PUBLIC_ADD_PRODUCT_TO_STRIPE}/${concertId}/category1`;
-    await backendAxiosPost(stripeAddProductAPI, stripeProduct);
-    // const postId = uuidv4();
-    // const createForum = {
-    //   post_id: postId,
-    //   concert_id: concertId,
-    //   user_id: user.userId,
-    //   title: values.title,
-    //   content: `${values.title} Forum`,
-    // };
-    const createForum = {
-      concert_id: concertId,
-      concert_name: `${values.title} Forum`,
-      user_id: user.userId,
-    };
-    const createForumAPI = String(process.env.NEXT_PUBLIC_CREATE_FORUM);
-    await backendAxiosPost(createForumAPI, createForum);
   };
 
   return (
@@ -66,7 +48,7 @@ export default function CreateConcert() {
       {successState ? (
         <SuccessComponent data={formData} />
       ) : (
-        <ConcertForm onClick={onSubmit} />
+        <ConcertForm onClick={onSubmit} create={create} />
       )}
     </div>
   );

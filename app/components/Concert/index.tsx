@@ -6,7 +6,7 @@ import Orders from "@/orders";
 import { ConcertCardProp, ForumCardProp } from "@/types";
 import { handleScrollIntoView } from "@/utils";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import CTA from "~/cta.svg";
 import ConcertCard from "./ConcertCard";
 import ConcertSearch from "./ConcertSearch";
@@ -24,19 +24,19 @@ export default function Concert() {
   );
   const user = useContext(AuthContext);
 
-  const getForums = async () => {
+  const getForums = useCallback(async () => {
     const apiURL = String(process.env.NEXT_PUBLIC_GET_FORUM);
     const response = await backendAxiosPost(apiURL, {
       user_id: user.userId,
     });
     setForum(response?.data);
-  };
+  }, [user]);
 
   useEffect(() => {
     if (user.userId) {
       getForums();
     }
-  }, [user]);
+  }, [user, getForums]);
 
   const filteredForums = forum?.filter(({ concert_name }: ForumCardProp) =>
     concert_name.toLowerCase().includes(searchPostQuery.toLowerCase())
@@ -126,8 +126,6 @@ export default function Concert() {
                     <ForumCard
                       key={concert_name}
                       concert_id={concert_id}
-                      // concert_id={concert_id}
-                      // post_id={post_id ?? 0}
                       concert_name={concert_name}
                     />
                   )
