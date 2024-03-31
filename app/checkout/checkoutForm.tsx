@@ -68,7 +68,7 @@ export default function CheckoutForm({
   };
 
   return (
-    <form className="flex flex-col items-center gap-8 mx-auto">
+    <form className="flex flex-col items-center gap-8 mx-auto bg-slate-100 p-12 rounded-3xl">
       <LinkAuthenticationElement
         onChange={(e: any) => setEmail(e.value.email)}
       />

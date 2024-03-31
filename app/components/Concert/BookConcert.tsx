@@ -7,8 +7,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import Input from "../Input";
+import MultiSelect from "../MultiSelect";
 import Select from "../Select";
+
+// fetch from back-end
+const OPTIONS = [
+  { label: "A1", value: "A1" },
+  { label: "A2", value: "A2" },
+  { label: "A3", value: "A3" },
+  { label: "A4", value: "A4" },
+];
 
 interface BookConcertProps {
   concert_id: string;
@@ -32,32 +40,28 @@ export default function BookConcert({
     user_id: "",
     concert_id: "",
     cat_no: "",
-    seat_no: "",
+    seat_no: [] as string[],
     quantity: 0,
   });
   const form = useForm<z.infer<typeof bookingFormSchema>>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
       category: "",
-      quantity: 0,
-      seat: "",
+      seat: [],
     },
   });
 
-  const handleChange = (e: any) => {
-    const quantity = e.target.value;
-    setTotalPrice(quantity * price);
-  };
-
   const onSubmit = async (values: z.infer<typeof bookingFormSchema>) => {
-    const { seat, quantity, category } = values;
+    const { seat, category } = values;
+    const seatsOnly = seat.map((option) => option.value);
     setBookingForm({
       user_id: user.userId,
       concert_id: concert_id,
       cat_no: category,
-      seat_no: seat,
-      quantity: quantity,
+      seat_no: seatsOnly,
+      quantity: seatsOnly.length,
     });
+    setTotalPrice(price * seatsOnly.length);
     setShowPayment(true);
   };
 
@@ -70,7 +74,7 @@ export default function BookConcert({
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-8 bg-slate-50 px-16 py-10 rounded-2xl shadow-3xl"
             >
-              <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+              <div className="grid lg:grid-cols-1 gap-12 lg:gap-12">
                 <Select
                   control={form.control}
                   formLabel="Select Category"
@@ -79,31 +83,16 @@ export default function BookConcert({
                   values={["Category 1", "Category 2", "Category 3"]}
                 />
 
-                <Select
+                <MultiSelect
                   control={form.control}
                   formLabel="Select Seat"
                   nameField="seat"
-                  placeholder="Seat"
-                  values={["A1", "A2", "A3"]}
-                />
-
-                <Input
-                  control={form.control}
-                  type="number"
-                  nameField="quantity"
-                  title="No. of tickets"
-                  placeholder="e.g 5"
-                  handleChange={handleChange}
-                  readOnly={false}
+                  placeholder="Select your seats"
+                  options={OPTIONS}
                 />
               </div>
 
-              <div className="flex flex-col pt-4 items-end gap-5">
-                <div className="flex items-center gap-2">
-                  <p>Total</p>
-                  <h1>S${totalPrice.toFixed(2)}</h1>
-                </div>
-
+              <div className="flex flex-col pt-4 items-end">
                 <Button variant="dark" size="lg" type="submit">
                   Process Booking
                 </Button>

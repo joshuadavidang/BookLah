@@ -11,10 +11,14 @@ export const formSchema = z.object({
   description: z.string().min(5).max(1000),
 });
 
+const optionSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+});
+
 export const bookingFormSchema = z.object({
   category: z.string().min(1, { message: "Required field" }),
-  seat: z.string().min(1, { message: "Required field" }),
-  quantity: z.coerce.number().int().min(1, { message: "Required field" }),
+  seat: z.array(optionSchema).min(1, { message: "Required field" }),
 });
 
 export const commentSchema = z.object({
