@@ -14,6 +14,7 @@ interface InputProps {
   placeholder: string;
   type: string;
   handleChange?: any;
+  readOnly?: boolean;
 }
 
 export default function Input({
@@ -22,6 +23,7 @@ export default function Input({
   title,
   type,
   placeholder,
+  readOnly = false,
   handleChange,
 }: InputProps) {
   return (
@@ -38,6 +40,7 @@ export default function Input({
               type={type}
               placeholder={placeholder}
               onChangeCapture={handleChange}
+              readOnly={readOnly}
               {...field}
             />
           </FormControl>

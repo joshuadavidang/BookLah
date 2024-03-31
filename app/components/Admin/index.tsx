@@ -1,4 +1,5 @@
-import { useAdminCreatedConcert, useForumDetailUserId } from "@/api";
+import { useAdminCreatedConcert } from "@/api";
+import { backendAxiosPost } from "@/api/helper";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthContext } from "@/context";
@@ -7,7 +8,7 @@ import { ConcertCardProp, ForumCardProp } from "@/types";
 import { FORM_URL } from "@/utils/constants";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CTA from "~/cta.svg";
 import ConcertCard from "../Concert/ConcertCard";
 import ConcertSearch from "../Concert/ConcertSearch";
@@ -16,6 +17,7 @@ import LoadingIndicator from "../Loading";
 export default function Admin() {
   const router = useRouter();
   const user = useContext(AuthContext);
+  const [forum, setForum] = useState<any>();
   const { data, isLoading } = useAdminCreatedConcert(user.userId);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchPostQuery, setSearchPostQuery] = useState<string>("");
@@ -23,10 +25,21 @@ export default function Admin() {
     title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const result = useForumDetailUserId(user.userId);
-  const response = result?.data?.data;
+  const getForums = async () => {
+    const apiURL = String(process.env.NEXT_PUBLIC_GET_FORUM);
+    const response = await backendAxiosPost(apiURL, {
+      user_id: user.userId,
+    });
+    setForum(response?.data);
+  };
 
-  const filteredForums = response?.filter(({ concert_name }: ForumCardProp) =>
+  useEffect(() => {
+    if (user.userId) {
+      getForums();
+    }
+  }, [user]);
+
+  const filteredForums = forum?.filter(({ concert_name }: ForumCardProp) =>
     concert_name.toLowerCase().includes(searchPostQuery.toLowerCase())
   );
 
@@ -124,40 +137,6 @@ export default function Admin() {
           </TabsContent>
         </Tabs>
       </div>
-
-      {/* {data && (
-        <div className="flex flex-col px-12 mt-24 gap-6">
-          <h1 className="text-2xl text-center">Your Created Concert</h1>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {data?.data.map(
-              ({
-                concert_id,
-                performer,
-                title,
-                venue,
-                date,
-                time,
-                capacity,
-                concert_status,
-                description,
-              }: ConcertCardProp) => (
-                <ConcertCard
-                  key={concert_id}
-                  concert_id={concert_id ?? 0}
-                  performer={performer}
-                  title={title}
-                  date={date}
-                  time={time}
-                  capacity={capacity}
-                  venue={venue}
-                  description={description}
-                  concert_status={concert_status}
-                />
-              )
-            )}
-          </div>
-        </div>
-      )} */}
     </div>
   );
 }

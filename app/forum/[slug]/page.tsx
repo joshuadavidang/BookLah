@@ -6,6 +6,7 @@ import {
   usePostDetails,
 } from "@/api";
 import { backendAxiosPost } from "@/api/helper";
+import { Dialog } from "@/components/Dialog";
 import LoadingIndicator from "@/components/Loading";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -29,7 +30,8 @@ const ForumDetails = (params: any) => {
 
   const posts = usePostDetails(slug);
 
-  const comments = useCommentDetail("a6f8e5b1-31cf-4f87-9a18-4e830e5d9e38");
+  const comments = useCommentDetail("319bfba6-2070-4434-9c3e-2d3704590f77"); // postid
+
   const router = useRouter();
   const user = useContext(AuthContext);
   const isAdmin = user.userType === UserType.ADMIN;
@@ -52,10 +54,13 @@ const ForumDetails = (params: any) => {
 
   const concert_name = data?.data?.concert_name;
 
-  const onSubmit = async (values: z.infer<typeof commentSchema>) => {
+  const onSubmit = async (
+    values: z.infer<typeof commentSchema>,
+    postId: string
+  ) => {
     setAddComment(true);
     const commentId = uuidv4();
-    const apiURL = `${process.env.NEXT_PUBLIC_ADD_COMMENT}/a6f8e5b1-31cf-4f87-9a18-4e830e5d9e38`;
+    const apiURL = `${process.env.NEXT_PUBLIC_ADD_COMMENT}/${postId}`; // postid
     const data = {
       comment_id: commentId,
       content: values.comment,
@@ -82,90 +87,95 @@ const ForumDetails = (params: any) => {
           <ArrowLeft size="18" /> Back
         </Button>
         <h1>{concert_name}'s Community Forum</h1>
-        <Button variant="link" className="text-sm">
-          {isAdmin ? "Add Post" : "Leave Forum"}
-        </Button>
+
+        {isAdmin ? <Dialog concertId={slug} /> : "Leave Forum"}
       </div>
 
-      {posts?.data?.data?.posts.map(({ post_id, content }: any) => (
-        <div
-          className="flex flex-col gap-4 mx-auto rounded-lg bg-gray-200 p-12"
-          key={post_id}
-        >
-          <div className="flex justify-center mx-4 bg-white p-8 rounded-2xl">
-            <h3>
-              <span className="font-semibold"> {"<Official Post> "}</span>
-              {content}
-            </h3>
-          </div>
+      {posts?.data?.data?.posts.map((post: any) => {
+        return (
+          <div
+            className="flex flex-col gap-4 mx-auto rounded-lg bg-gray-200 p-12"
+            key={post.post_id}
+          >
+            <div className="flex justify-center mx-4 bg-white p-8 rounded-2xl">
+              <h3>
+                <span className="font-semibold"> {"<Official Post> "}</span>
+                {post.content}
+              </h3>
+            </div>
 
-          <div className="flex flex-col gap-4 p-4 max-h-[300px] overflow-auto">
-            {comments?.data?.data.map(({ user_id, comment_id, content }: any) =>
-              user_id === user.userId ? (
-                <div
-                  key={comment_id}
-                  className="flex justify-end items-center gap-4"
-                >
-                  {content}
-                  <Avatar className="bg-white">
-                    <AvatarFallback>{user.name[0]}</AvatarFallback>
-                  </Avatar>
-                </div>
-              ) : (
-                <div
-                  key={comment_id}
-                  className="flex justify-start items-center gap-4"
-                >
-                  <Avatar className="bg-white">
-                    <AvatarFallback>A</AvatarFallback>
-                  </Avatar>
-                  {content}
-                </div>
-              )
-            )}
-          </div>
+            <div className="flex flex-col gap-4 p-4 max-h-[300px] overflow-auto">
+              {comments?.data?.data.map(
+                ({ user_id, comment_id, content, post_id }: any) =>
+                  post_id === post.post_id &&
+                  (user_id === user.userId ? (
+                    <div
+                      key={comment_id}
+                      className="flex justify-end items-center gap-4"
+                    >
+                      {content}
+                      <Avatar className="bg-white">
+                        <AvatarFallback>{user.name[0]}</AvatarFallback>
+                      </Avatar>
+                    </div>
+                  ) : (
+                    <div
+                      key={comment_id}
+                      className="flex justify-start items-center gap-4"
+                    >
+                      <Avatar className="bg-white">
+                        <AvatarFallback>A</AvatarFallback>
+                      </Avatar>
+                      {content}
+                    </div>
+                  ))
+              )}
+            </div>
 
-          <div className="flex justify-center">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col lg:flex-row justify-between relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring"
-              >
-                <FormField
-                  control={form.control}
-                  name="comment"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Add a comment here..."
-                          className="min-h-[100px] min-w-[650px] resize-none border-0 p-3 shadow-none focus-visible:ring-0"
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
+            <div className="flex justify-center">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit((values) =>
+                    onSubmit(values, post.post_id)
                   )}
-                />
-                <div className="flex items-center p-3 pt-4">
-                  <Button
-                    type="submit"
-                    variant="dark"
-                    size="sm"
-                    disabled={addComment}
-                  >
-                    <p className="text-xs">
-                      {!addComment ? "Enter" : "Adding..."}
-                    </p>
-                    {!addComment && (
-                      <CornerDownLeft className="ml-2 size-3.5" />
+                  className="flex flex-col lg:flex-row justify-between relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring"
+                >
+                  <FormField
+                    control={form.control}
+                    name="comment"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Add a comment here..."
+                            className="min-h-[100px] min-w-[650px] resize-none border-0 p-3 shadow-none focus-visible:ring-0"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
                     )}
-                  </Button>
-                </div>
-              </form>
-            </Form>
+                  />
+                  <div className="flex items-center p-3 pt-4">
+                    <Button
+                      type="submit"
+                      variant="dark"
+                      size="sm"
+                      disabled={addComment}
+                    >
+                      <p className="text-xs">
+                        {!addComment ? "Enter" : "Adding..."}
+                      </p>
+                      {!addComment && (
+                        <CornerDownLeft className="ml-2 size-3.5" />
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
