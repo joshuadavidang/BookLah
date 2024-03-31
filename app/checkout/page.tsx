@@ -45,10 +45,16 @@ export default function Payment({
   }, []);
 
   return (
-    <>
-      <h1 className="flex justify-center">
-        Almost there... Enter your payment details.
-      </h1>
+    <div className="flex mt-4">
+      <div className="flex flex-col gap-4">
+        <h1 className="flex justify-center">
+          Almost there... Enter your payment details.
+        </h1>
+        <div className="flex items-center gap-2">
+          <p>Total</p>
+          <h1>S${totalPrice.toFixed(2)}</h1>
+        </div>
+      </div>
       {stripePromise && clientSecret && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm
@@ -58,6 +64,6 @@ export default function Payment({
           />
         </Elements>
       )}
-    </>
+    </div>
   );
 }
