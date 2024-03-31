@@ -72,7 +72,7 @@ export default function BookConcert({
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8 bg-slate-50 px-16 py-10 rounded-2xl shadow-3xl"
+              className="space-y-8 bg-slate-50 px-16 py-10 rounded-2xl shadow-3xl min-w-[800px]"
             >
               <div className="grid lg:grid-cols-1 gap-12 lg:gap-12">
                 <Select

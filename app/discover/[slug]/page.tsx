@@ -147,7 +147,7 @@ const ConcertDetails = (params: any) => {
           {!isAdmin && <BookConcert concert_id={concert_id} price={price} />}
 
           {isAdmin && (
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center min-w-[800px]">
               <div className="flex gap-4">
                 <Button size="lg" variant="outline" onClick={handleEdit}>
                   Edit

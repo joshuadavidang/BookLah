@@ -45,7 +45,7 @@ export default function Payment({
   }, []);
 
   return (
-    <div className="flex mt-4">
+    <div className="flex mt-4 gap-12">
       <div className="flex flex-col gap-4">
         <h1 className="flex justify-center">
           Almost there... Enter your payment details.
