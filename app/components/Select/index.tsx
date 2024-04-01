@@ -18,7 +18,7 @@ interface SelectProps {
   nameField: string;
   placeholder: string;
   formLabel: string;
-  values: string[];
+  values: any;
 }
 
 export default function Select({
@@ -46,9 +46,9 @@ export default function Select({
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
-              {values.map((value, i) => (
+              {values.map(({ value, label }: any, i: number) => (
                 <SelectItem key={i} value={value}>
-                  {value}
+                  {label}
                 </SelectItem>
               ))}
             </SelectContent>

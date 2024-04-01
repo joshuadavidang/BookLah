@@ -1,3 +1,4 @@
+import { useSeat } from "@/api";
 import Payment from "@/checkout/page";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -7,15 +8,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import LoadingIndicator from "../Loading";
 import MultiSelect from "../MultiSelect";
 import Select from "../Select";
 
-// fetch from back-end
-const OPTIONS = [
-  { label: "A1", value: "A1" },
-  { label: "A2", value: "A2" },
-  { label: "A3", value: "A3" },
-  { label: "A4", value: "A4" },
+const category = [
+  { label: "Category 1", value: "category1" },
+  { label: "Category 2", value: "category2" },
+  { label: "Category 3", value: "category3" },
 ];
 
 interface BookConcertProps {
@@ -40,7 +40,7 @@ export default function BookConcert({
     user_id: "",
     concert_id: "",
     cat_no: "",
-    seat_no: [] as string[],
+    seat_no: "",
     quantity: 0,
   });
   const form = useForm<z.infer<typeof bookingFormSchema>>({
@@ -51,6 +51,14 @@ export default function BookConcert({
     },
   });
 
+  const { data, isLoading } = useSeat(concert_id);
+
+  if (isLoading) return <LoadingIndicator />;
+
+  const seats = data?.data?.seats;
+  const seatData = seats?.map((seat: any) => seat?.seat_no);
+  const OPTIONS = seatData?.map((value: any) => ({ label: value, value }));
+
   const onSubmit = async (values: z.infer<typeof bookingFormSchema>) => {
     const { seat, category } = values;
     const seatsOnly = seat.map((option) => option.value);
@@ -58,7 +66,7 @@ export default function BookConcert({
       user_id: user.userId,
       concert_id: concert_id,
       cat_no: category,
-      seat_no: seatsOnly,
+      seat_no: seatsOnly.join(","),
       quantity: seatsOnly.length,
     });
     setTotalPrice(price * seatsOnly.length);
@@ -80,7 +88,7 @@ export default function BookConcert({
                   formLabel="Select Category"
                   nameField="category"
                   placeholder="Category"
-                  values={["Category 1", "Category 2", "Category 3"]}
+                  values={category}
                 />
 
                 <MultiSelect

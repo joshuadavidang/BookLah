@@ -21,6 +21,12 @@ export const useConcertDetail = (concert_id: string) => {
   return { data, error, isLoading };
 };
 
+export const useSeat = (concert_id: string) => {
+  const seatsAPI = process.env.NEXT_PUBLIC_FETCH_SEATS + `/${concert_id}` || "";
+  const { data, error, isLoading } = useSWR(seatsAPI, fetcher);
+  return { data, error, isLoading };
+};
+
 export const useAdminCreatedConcert = (userId: string) => {
   const concertDetailsAPI =
     process.env.NEXT_PUBLIC_ADMIN_CREATED_CONCERT + `/${userId}` || "";
