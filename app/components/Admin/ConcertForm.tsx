@@ -12,6 +12,17 @@ import { Modal } from "../Modal";
 import Select from "../Select";
 import TextArea from "../TextArea";
 
+const venues = [
+  { label: "Singapore National Stadium", value: "Singapore National Stadium" },
+  { label: "Singapore Indoor Stadium", value: "Singapore Indoor Stadium" },
+];
+
+const time = [
+  { label: "7PM", value: "7PM" },
+  { label: "8PM", value: "8PM" },
+  { label: "9PM", value: "9PM" },
+];
+
 interface ConcertFormProps {
   onClick: any;
   create: boolean;
@@ -69,10 +80,7 @@ export default function ConcertForm({ create, onClick }: ConcertFormProps) {
               formLabel="Where is it?"
               nameField="venue"
               placeholder="Venue"
-              values={[
-                "Singapore National Stadium",
-                "Singapore Indoor Stadium",
-              ]}
+              values={venues}
             />
 
             <DatePicker
@@ -94,7 +102,7 @@ export default function ConcertForm({ create, onClick }: ConcertFormProps) {
               formLabel="What time would it be?"
               nameField="time"
               placeholder="Time"
-              values={["7PM", "8PM", "9PM", "10PM"]}
+              values={time}
             />
 
             <Input
