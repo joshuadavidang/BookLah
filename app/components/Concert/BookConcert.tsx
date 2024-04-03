@@ -114,6 +114,7 @@ export default function BookConcert({
         <>
           <Payment
             cancelPayment={() => setShowPayment(false)}
+            concertId={concert_id}
             totalPrice={totalPrice}
             bookingForm={bookingForm}
           />
