@@ -10,12 +10,14 @@ interface PaymentProps {
   totalPrice: number;
   cancelPayment: () => void;
   bookingForm: any;
+  concertId: string;
 }
 
 export default function Payment({
   totalPrice,
   cancelPayment,
   bookingForm,
+  concertId,
 }: PaymentProps) {
   const [stripePromise, setStripePromise] = useState<any>(null);
   const [clientSecret, setClientSecret] = useState<string>();
@@ -33,6 +35,7 @@ export default function Payment({
 
     const data = {
       price: totalPrice,
+      concert_id: concertId,
     };
 
     const { client_secret } = await backendAxiosPost(PaymentIntentAPI, data);
