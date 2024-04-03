@@ -5,8 +5,9 @@ import {
   useForumDetailConcertId,
   usePostDetails,
 } from "@/api";
-import { backendAxiosPost } from "@/api/helper";
+import { backendAxiosPost, backendAxiosPut } from "@/api/helper";
 import { Dialog } from "@/components/Dialog";
+import LeaveForumModal from "@/components/LeaveForumModal";
 import LoadingIndicator from "@/components/Loading";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,11 +16,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { AuthContext } from "@/context";
 import { commentSchema } from "@/model/formSchema";
 import { UserType } from "@/types";
+import { DISCOVER_URL } from "@/utils/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, CornerDownLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
@@ -53,6 +56,21 @@ const ForumDetails = (params: any) => {
   if (isLoading) return <LoadingIndicator />;
 
   const concert_name = data?.data?.concert_name;
+  const concert_id = data?.data?.concert_id;
+
+  const handleLeaveForum = async () => {
+    const apiURL = `${process.env.NEXT_PUBLIC_LEAVE_FORUM}`;
+    const data = {
+      concert_id: concert_id,
+      user_id: user.userId,
+      forum_joined: false,
+    };
+    const response = await backendAxiosPut(apiURL, data);
+    if (response.code === 200) {
+      toast.success("You've left the forum");
+      router.push(DISCOVER_URL);
+    }
+  };
 
   const onSubmit = async (
     values: z.infer<typeof commentSchema>,
@@ -87,7 +105,11 @@ const ForumDetails = (params: any) => {
           <ArrowLeft size="18" /> Back
         </Button>
         <h1>{concert_name}'s Community Forum</h1>
-        {isAdmin ? <Dialog concertId={slug} /> : "Leave Forum"}
+        {isAdmin ? (
+          <Dialog concertId={slug} />
+        ) : (
+          <LeaveForumModal title="Leave Forum" onClick={handleLeaveForum} />
+        )}
       </div>
 
       {posts?.data?.data?.posts.map((post: any) => {
