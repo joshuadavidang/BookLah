@@ -31,7 +31,9 @@
 
 3. Set up environment variables
 
-- `cp .env.example .env.local`
+   ```
+   cp .env.example .env.local
+   ```
 
 4. Run the project in development environment
 
