@@ -1,4 +1,4 @@
-import { useSeat } from "@/api";
+import { useSeat } from "@/api/concert";
 import Payment from "@/checkout/page";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -21,11 +21,13 @@ const category = [
 interface BookConcertProps {
   concert_id: string;
   price: number;
+  soldOut: boolean;
 }
 
 export default function BookConcert({
   concert_id,
   price = 0,
+  soldOut,
 }: BookConcertProps) {
   useEffect(() => {
     window.scrollTo({
@@ -101,7 +103,12 @@ export default function BookConcert({
               </div>
 
               <div className="flex flex-col pt-4 items-end">
-                <Button variant="dark" size="lg" type="submit">
+                <Button
+                  variant="dark"
+                  size="lg"
+                  type="submit"
+                  disabled={soldOut}
+                >
                   Process Booking
                 </Button>
               </div>

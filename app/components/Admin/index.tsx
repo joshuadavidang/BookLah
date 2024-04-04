@@ -1,4 +1,5 @@
-import { useAdminCreatedConcert, useForumDetailUserId } from "@/api";
+import { useForumDetailUserId } from "@/api";
+import { useAdminCreatedConcert } from "@/api/concert";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthContext } from "@/context";

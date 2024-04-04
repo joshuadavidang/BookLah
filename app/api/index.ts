@@ -8,32 +8,6 @@ export const useUserInfo = () => {
   return { data, error, isLoading };
 };
 
-export const useConcertDetails = () => {
-  const concertDetailsAPI = String(process.env.NEXT_PUBLIC_GET_CONCERTS);
-  const { data, error, isLoading } = useSWR(concertDetailsAPI, fetcher);
-  return { data, error, isLoading };
-};
-
-export const useConcertDetail = (concert_id: string) => {
-  const concertDetailsAPI =
-    process.env.NEXT_PUBLIC_GET_CONCERT + `/${concert_id}` || "";
-  const { data, error, isLoading } = useSWR(concertDetailsAPI, fetcher);
-  return { data, error, isLoading };
-};
-
-export const useSeat = (concert_id: string) => {
-  const seatsAPI = process.env.NEXT_PUBLIC_FETCH_SEATS + `/${concert_id}` || "";
-  const { data, error, isLoading } = useSWR(seatsAPI, fetcher);
-  return { data, error, isLoading };
-};
-
-export const useAdminCreatedConcert = (userId: string) => {
-  const concertDetailsAPI =
-    process.env.NEXT_PUBLIC_ADMIN_CREATED_CONCERT + `/${userId}` || "";
-  const { data, error, isLoading } = useSWR(concertDetailsAPI, fetcher);
-  return { data, error, isLoading };
-};
-
 export const useForumDetailUserId = (user_id: string) => {
   const forumDetailAPI =
     process.env.NEXT_PUBLIC_GET_FORUM_BY_USER_ID + `/${user_id}` || "";

@@ -112,6 +112,12 @@ const ForumDetails = (params: any) => {
         )}
       </div>
 
+      <div className="flex flex-col gap-4 mx-auto rounded-3xl bg-gray-100 p-12 w-2/3">
+        <h2 className="font-h2 font-semibold text-center">
+          Ops... The concert organiser has not posted anything. Check back soon!
+        </h2>
+      </div>
+
       {posts?.data?.data?.posts.map((post: any) => {
         return (
           <div

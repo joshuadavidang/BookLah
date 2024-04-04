@@ -40,7 +40,7 @@ const MultiSelect = ({
               placeholder={placeholder}
               emptyIndicator={
                 <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                  no results found.
+                  Sorry, there are no more seats available.
                 </p>
               }
               hidePlaceholderWhenSelected
