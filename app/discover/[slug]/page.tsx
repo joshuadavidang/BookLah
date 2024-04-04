@@ -77,10 +77,11 @@ const ConcertDetails = (params: any) => {
       }
     } else {
       const apiURL = String(process.env.NEXT_PUBLIC_CANCEL_CONCERT);
-      const response = await backendAxiosPost(apiURL, {
-        concert_id,
-      });
-      if (response.code === 200) {
+      const data = {
+        concert_id: concert_id,
+      };
+      const response = await backendAxiosPost(apiURL, data);
+      if (response.code === 201) {
         toast.success("Concert has been cancelled");
         router.push(DISCOVER_URL);
       }
@@ -151,16 +152,10 @@ const ConcertDetails = (params: any) => {
                   Edit
                 </Button>
                 <AlertDialog>
-                  <AlertDialogTrigger>
-                    {concert_status === ConcertStatus.AVAILABLE ? (
-                      <Button variant="secondary" size="lg">
-                        Cancel Concert
-                      </Button>
-                    ) : (
-                      <Button variant="green" size="lg">
-                        Make Available
-                      </Button>
-                    )}
+                  <AlertDialogTrigger asChild>
+                    <Button variant="secondary" size="lg">
+                      Cancel Concert
+                    </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>

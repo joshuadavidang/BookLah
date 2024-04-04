@@ -15,12 +15,14 @@ import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import Input from "../Input";
+import { toast } from "sonner";
 
 interface DialogProps {
   concertId: string;
+  disabled: boolean;
 }
 
-export function Dialog({ concertId }: DialogProps) {
+export function Dialog({ concertId, disabled }: DialogProps) {
   const user = useContext(AuthContext);
   const [open, setOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof PostSchema>>({
@@ -42,6 +44,7 @@ export function Dialog({ concertId }: DialogProps) {
     };
     const response = await backendAxiosPost(apiURL, data);
     if (response.code === 201) {
+      toast.success("Added a new post!");
       setOpen(false);
       form.reset();
     }
@@ -51,7 +54,9 @@ export function Dialog({ concertId }: DialogProps) {
     <Form {...form}>
       <ShadcnDialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Add Post</Button>
+          <Button variant="outline" disabled={disabled}>
+            Add Post
+          </Button>
         </DialogTrigger>
 
         <DialogContent className="sm:max-w-[425px]">
