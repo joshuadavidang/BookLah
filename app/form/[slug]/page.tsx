@@ -1,6 +1,6 @@
 "use client";
 
-import { useConcertDetail } from "@/api";
+import { useConcertDetail } from "@/api/concert";
 import { backendAxiosPut } from "@/api/helper";
 import { DatePicker } from "@/components/DatePicker/index";
 import Input from "@/components/Input";
@@ -36,6 +36,20 @@ export default function EditedConcertForm(params: any) {
       description: "",
     },
   });
+
+  const venues = [
+    {
+      label: "Singapore National Stadium",
+      value: "Singapore National Stadium",
+    },
+    { label: "Singapore Indoor Stadium", value: "Singapore Indoor Stadium" },
+  ];
+
+  const time = [
+    { label: "7PM", value: "7PM" },
+    { label: "8PM", value: "8PM" },
+    { label: "9PM", value: "9PM" },
+  ];
 
   useEffect(() => {
     form.setValue("performer", data?.data?.performer);
@@ -93,11 +107,7 @@ export default function EditedConcertForm(params: any) {
               formLabel="Where is it?"
               nameField="venue"
               placeholder="Venue"
-              selectedValue={data?.data?.venue}
-              values={[
-                "Singapore National Stadium",
-                "Singapore Indoor Stadium",
-              ]}
+              values={venues}
             />
 
             <DatePicker
@@ -119,8 +129,7 @@ export default function EditedConcertForm(params: any) {
               formLabel="What time would it be?"
               nameField="time"
               placeholder="Time"
-              selectedValue={data?.data?.time}
-              values={["7PM", "8PM", "9PM", "10PM"]}
+              values={time}
             />
 
             <Input

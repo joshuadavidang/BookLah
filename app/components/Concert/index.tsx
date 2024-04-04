@@ -16,8 +16,6 @@ import ConcertSearch from "./ConcertSearch";
 export default function Concert() {
   const { data } = useConcertDetails();
 
-  console.log(data);
-
   const [forum, setForum] = useState<any>();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchPostQuery, setSearchPostQuery] = useState<string>("");

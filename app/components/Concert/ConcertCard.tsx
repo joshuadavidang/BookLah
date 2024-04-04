@@ -28,8 +28,6 @@ export default function ConcertCard({
   const navigateDetails = (concert_id: number) => {
     if (concert_status === ConcertStatus.AVAILABLE) {
       router.push(`/discover/${concert_id}`);
-    } else if (isAdmin) {
-      router.push(`/discover/${concert_id}`);
     }
   };
 
@@ -47,9 +45,7 @@ export default function ConcertCard({
           <div className="flex justify-between items-center gap-1">
             <h1
               className={`${
-                concert_status === ConcertStatus.CANCELLED &&
-                !isAdmin &&
-                "opacity-50"
+                concert_status === ConcertStatus.CANCELLED && "opacity-50"
               } text-2xl"`}
             >
               {title}
@@ -68,9 +64,7 @@ export default function ConcertCard({
         </CardTitle>
         <CardDescription
           className={`${
-            concert_status === ConcertStatus.CANCELLED &&
-            !isAdmin &&
-            "opacity-50"
+            concert_status === ConcertStatus.CANCELLED && "opacity-50"
           } text-2xl"`}
         >
           {performer}
@@ -78,7 +72,7 @@ export default function ConcertCard({
       </CardHeader>
       <CardContent
         className={`${
-          concert_status === ConcertStatus.CANCELLED && !isAdmin && "opacity-50"
+          concert_status === ConcertStatus.CANCELLED && "opacity-50"
         } text-2xl"`}
       >
         <p>

@@ -12,11 +12,7 @@ import LoadingIndicator from "../Loading";
 import MultiSelect from "../MultiSelect";
 import Select from "../Select";
 
-const category = [
-  { label: "Category 1", value: "category1" },
-  { label: "Category 2", value: "category2" },
-  { label: "Category 3", value: "category3" },
-];
+const category = [{ label: "Category 1", value: "category1" }];
 
 interface BookConcertProps {
   concert_id: string;
