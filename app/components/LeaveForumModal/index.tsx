@@ -22,7 +22,7 @@ export default function LeaveForumModal({
 }: LeaveForumModalProps) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button variant="outline">{title}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

@@ -1,6 +1,8 @@
-import { useConcertDetails } from "@/api";
+import { useConcertDetails } from "@/api/concert";
+import { backendAxiosPost } from "@/api/helper";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AuthContext } from "@/context";
 import ForumCard from "@/forum/ForumCard";
 import Orders from "@/orders";
 import { ConcertCardProp, ForumCardProp } from "@/types";
@@ -10,11 +12,12 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import CTA from "~/cta.svg";
 import ConcertCard from "./ConcertCard";
 import ConcertSearch from "./ConcertSearch";
-import { backendAxiosPost } from "@/api/helper";
-import { AuthContext } from "@/context";
 
 export default function Concert() {
   const { data } = useConcertDetails();
+
+  console.log(data);
+
   const [forum, setForum] = useState<any>();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchPostQuery, setSearchPostQuery] = useState<string>("");
@@ -26,10 +29,15 @@ export default function Concert() {
 
   const getForums = useCallback(async () => {
     const apiURL = String(process.env.NEXT_PUBLIC_GET_FORUM);
-    const response = await backendAxiosPost(apiURL, {
+    const data = {
       user_id: user.userId,
-    });
-    setForum(response?.data);
+    };
+    const response = await backendAxiosPost(apiURL, data);
+    if (response.code === 400) {
+      setForum([]);
+    } else {
+      setForum(response?.data?.data);
+    }
   }, [user]);
 
   useEffect(() => {

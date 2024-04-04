@@ -1,6 +1,6 @@
 "use client";
 
-import { useConcertDetail } from "@/api";
+import { useConcertDetail, useSeatCount } from "@/api/concert";
 import { backendAxiosPost, backendAxiosPut } from "@/api/helper";
 import BookConcert from "@/components/Concert/BookConcert";
 import LoadingIndicator from "@/components/Loading";
@@ -29,6 +29,7 @@ import { toast } from "sonner";
 const ConcertDetails = (params: any) => {
   const { slug } = params.params;
   const { data, isLoading } = useConcertDetail(slug);
+  const seatAPI = useSeatCount(slug);
   const router = useRouter();
   const user = useContext(AuthContext);
   const isAdmin = user.userType === UserType.ADMIN;
@@ -58,8 +59,9 @@ const ConcertDetails = (params: any) => {
     price,
     title,
     venue,
-    capacity,
   } = concertDetails;
+
+  const soldOut = seatAPI?.data?.data?.numSeatsAvailable === 0;
 
   const handleUpdate = async () => {
     if (ConcertStatus.CANCELLED === concert_status) {
@@ -101,35 +103,25 @@ const ConcertDetails = (params: any) => {
         </Button>
 
         <h1>{performer}</h1>
-        {isAdmin ? (
-          <div className="flex gap-2 items-center">
-            {concert_status === ConcertStatus.AVAILABLE && (
-              <>{capacity} Seats</>
-            )}
-            <Badge
-              variant={
-                concert_status === ConcertStatus.AVAILABLE
-                  ? "success"
-                  : "destructive"
-              }
-            >
-              {concert_status}
-            </Badge>
-          </div>
-        ) : (
-          <div className="flex gap-2 items-center">
-            <Badge
-              variant={
-                concert_status === ConcertStatus.AVAILABLE
-                  ? "success"
-                  : "destructive"
-              }
-            >
-              {capacity}
-            </Badge>
-            Seats Available
-          </div>
-        )}
+
+        <div className="flex gap-2 items-center">
+          {soldOut ? (
+            <Badge variant="destructive">Tickets Sold Out</Badge>
+          ) : (
+            <>
+              <Badge
+                variant={
+                  concert_status === ConcertStatus.AVAILABLE
+                    ? "success"
+                    : "destructive"
+                }
+              >
+                {seatAPI?.data?.data?.numSeatsAvailable}
+              </Badge>
+              Seats Available
+            </>
+          )}
+        </div>
       </div>
 
       <div className="flex justify-center pt-12">
@@ -144,7 +136,13 @@ const ConcertDetails = (params: any) => {
             <h3>${price}</h3>
           </div>
 
-          {!isAdmin && <BookConcert concert_id={concert_id} price={price} />}
+          {!isAdmin && (
+            <BookConcert
+              concert_id={concert_id}
+              price={price}
+              soldOut={soldOut}
+            />
+          )}
 
           {isAdmin && (
             <div className="flex items-center justify-center min-w-[800px]">
