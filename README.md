@@ -1,10 +1,5 @@
-## BookLah
-
-![Issue](https://img.shields.io/github/issues/joshuadavidang/BookLah)
-![Pull Request](https://img.shields.io/github/issues-pr/joshuadavidang/BookLah)
-![Release Badge](https://img.shields.io/github/v/release/joshuadavidang/BookLah)
-<img src="https://github.com/joshuadavidang/joshua-david/assets/54788382/d62d2a96-b32f-4148-908b-7019a409d679" alt="portfolio" width="600" />
-<br />
+## Front-end Repository for BookLah
+- Enterprise Solution Development
 
 ## Tech Stack
 
@@ -12,8 +7,6 @@
 - [Tailwind CSS](https://tailwindcss.com)
 - [Shadcn UI](https://ui.shadcn.com/)
 - [Supabase](https://supabase.com)
-- [Vercel](https://vercel.com)
-- [Class Variance Authority](https://cva.style/docs)
 
 ## Getting Started
 
@@ -41,6 +34,5 @@
    npm run dev
    ```
 
-## Acknowledgements
-
-Developed by [@Joshua](https://www.linkedin.com/in/joshuadavidang/)
+##
+G10 Team 5
